@@ -1,0 +1,694 @@
+[
+  {
+    "part": 0,
+    "id": "149780297",
+    "images": [],
+    "source": "https://blog.csdn.net/weixin_40137374/article/details/149780297"
+  },
+  {
+    "part": 1,
+    "id": "149810506",
+    "images": [
+      {
+        "index": 0,
+        "src": "https://latex.csdn.net/eq?-1%5Ccdot%20-1%3D1",
+        "alt": "-1\\cdot -1=1",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 1,
+        "src": "https://latex.csdn.net/eq?a%28b&plus;c%29%3Dab&plus;ac",
+        "alt": "a(b+c)=ab+ac",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 2,
+        "src": "https://latex.csdn.net/eq?-1%5Ccdot%20-1%3D-1",
+        "alt": "-1\\cdot -1=-1",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 3,
+        "src": "https://latex.csdn.net/eq?-1%5Ccdot%20%281-1%29%3D-1-1%3D-2",
+        "alt": "-1\\cdot (1-1)=-1-1=-2",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 4,
+        "src": "https://latex.csdn.net/eq?-1%5Ccdot%20%281-1%29%3D-1%5Ccdot%200%3D0",
+        "alt": "-1\\cdot (1-1)=-1\\cdot 0=0",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 5,
+        "src": "https://latex.csdn.net/eq?%5Cfrac%7Ba%7D%7Bb%7D&plus;%5Cfrac%7Bc%7D%7Bd%7D%3D%5Cfrac%7Bad&plus;bc%7D%7Bbd%7D%3D%5Cfrac%7Bcb&plus;da%7D%7Bdb%7D%3D%5Cfrac%7Bc%7D%7Bd%7D&plus;%5Cfrac%7Ba%7D%7Bb%7D",
+        "alt": "\\frac{a}{b}+\\frac{c}{d}=\\frac{ad+bc}{bd}=\\frac{cb+da}{db}=\\frac{c}{d}+\\frac{a}{b}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 6,
+        "src": "https://latex.csdn.net/eq?x%5E%7B2%7D%3D-1",
+        "alt": "x^{2}=-1",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 7,
+        "src": "https://latex.csdn.net/eq?i%5E%7B2%7D%3D-1",
+        "alt": "i^{2}=-1",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 8,
+        "src": "https://latex.csdn.net/eq?i",
+        "alt": "i",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 9,
+        "src": "https://latex.csdn.net/eq?%28a&plus;bi%29&plus;%28c&plus;di%29%3D%28a&plus;c%29&plus;%28b&plus;d%29i",
+        "alt": "(a+bi)+(c+di)=(a+c)+(b+d)i",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 10,
+        "src": "https://latex.csdn.net/eq?%28a&plus;bi%29%28c&plus;di%29%3D%28ac-bd%29&plus;%28ad&plus;bc%29i",
+        "alt": "(a+bi)(c+di)=(ac-bd)+(ad+bc)i",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 11,
+        "src": "https://latex.csdn.net/eq?e%5E%7Bi%5CTheta%20%7D%3D1&plus;i%5CTheta%20&plus;%5Cfrac%7B%28i%5CTheta%29%20%5E%7B2%7D%7D%7B2%21%7D&plus;%5Cfrac%7B%28i%5CTheta%29%20%5E%7B3%7D%7D%7B3%21%7D&plus;%5Cfrac%7B%28i%5CTheta%29%20%5E%7B4%7D%7D%7B4%21%7D&plus;%5Ccdot%20%5Ccdot%20%5Ccdot",
+        "alt": "e^{i\\Theta }=1+i\\Theta +\\frac{(i\\Theta) ^{2}}{2!}+\\frac{(i\\Theta) ^{3}}{3!}+\\frac{(i\\Theta) ^{4}}{4!}+\\cdot \\cdot \\cdot",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 12,
+        "src": "https://latex.csdn.net/eq?i%5E%7B2%7D%3D-1",
+        "alt": "i^{2}=-1",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 13,
+        "src": "https://latex.csdn.net/eq?e%5E%7Bi%5CTheta%20%7D%3D1&plus;i%5CTheta%20-%5Cfrac%7B%5CTheta%5E%7B2%7D%7D%7B2%21%7D-i%5Cfrac%7B%5CTheta%5E%7B3%7D%7D%7B3%21%7D&plus;%5Cfrac%7B%5CTheta%20%5E%7B4%7D%7D%7B4%21%7D&plus;%5Ccdot%20%5Ccdot%20%5Ccdot",
+        "alt": "e^{i\\Theta }=1+i\\Theta -\\frac{\\Theta^{2}}{2!}-i\\frac{\\Theta^{3}}{3!}+\\frac{\\Theta ^{4}}{4!}+\\cdot \\cdot \\cdot",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 14,
+        "src": "https://latex.csdn.net/eq?e%5E%7Bi%5CTheta%20%7D%3D%281-%5Cfrac%7B%5CTheta%20%5E%7B2%7D%7D%7B2%21%7D&plus;%5Cfrac%7B%5CTheta%20%5E%7B4%7D%7D%7B4%21%7D-%5Ccdot%20%5Ccdot%20%5Ccdot%20%29&plus;i%28%5CTheta%20-%5Cfrac%7B%5CTheta%20%5E%7B3%7D%7D%7B3%21%7D&plus;%5Cfrac%7B%5CTheta%20%5E%7B5%7D%7D%7B5%21%7D-%5Ccdot%20%5Ccdot%20%5Ccdot%20%29",
+        "alt": "e^{i\\Theta }=(1-\\frac{\\Theta ^{2}}{2!}+\\frac{\\Theta ^{4}}{4!}-\\cdot \\cdot \\cdot )+i(\\Theta -\\frac{\\Theta ^{3}}{3!}+\\frac{\\Theta ^{5}}{5!}-\\cdot \\cdot \\cdot )",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 15,
+        "src": "https://latex.csdn.net/eq?%5Ccos%20%5CTheta",
+        "alt": "\\cos \\Theta",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 16,
+        "src": "https://latex.csdn.net/eq?%5Csin%20%5CTheta",
+        "alt": "\\sin \\Theta",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 17,
+        "src": "https://latex.csdn.net/eq?%5Ccos%20%5CTheta%20%3D1-%5Cfrac%7B%5CTheta%20%5E%7B2%7D%7D%7B2%21%7D&plus;%5Cfrac%7B%5CTheta%20%5E%7B4%7D%7D%7B4%21%7D-%5Ccdot%20%5Ccdot%20%5Ccdot",
+        "alt": "\\cos \\Theta =1-\\frac{\\Theta ^{2}}{2!}+\\frac{\\Theta ^{4}}{4!}-\\cdot \\cdot \\cdot",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 18,
+        "src": "https://latex.csdn.net/eq?%5Csin%20%5CTheta%20%3D%5CTheta%20-%5Cfrac%7B%5CTheta%20%5E%7B3%7D%7D%7B3%21%7D&plus;%5Cfrac%7B%5CTheta%20%5E%7B5%7D%7D%7B5%21%7D-%5Ccdot%20%5Ccdot%20%5Ccdot",
+        "alt": "\\sin \\Theta =\\Theta -\\frac{\\Theta ^{3}}{3!}+\\frac{\\Theta ^{5}}{5!}-\\cdot \\cdot \\cdot",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 19,
+        "src": "https://latex.csdn.net/eq?e%5E%7Bi%5CTheta%20%7D%3D%5Ccos%20%5CTheta%20&plus;i%5Csin%20%5CTheta",
+        "alt": "e^{i\\Theta }=\\cos \\Theta +i\\sin \\Theta",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 20,
+        "src": "https://i-blog.csdnimg.cn/direct/1d8dc683c8db4870867d94a1d09a5319.png",
+        "alt": "",
+        "math": false,
+        "destination": "images/euler-original.png"
+      },
+      {
+        "index": 21,
+        "src": "https://latex.csdn.net/eq?e%5E%7Bit%20%7D%3D%5Ccos%20t%20&plus;i%5Csin%20t",
+        "alt": "e^{it }=\\cos t +i\\sin t",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 22,
+        "src": "https://i-blog.csdnimg.cn/direct/05cc623f420943edb454a9e085e30371.png",
+        "alt": "",
+        "math": false,
+        "destination": "images/rotating-vector.png"
+      },
+      {
+        "index": 23,
+        "src": "https://i-blog.csdnimg.cn/direct/36d55d8749b14fa0a13e3145a6a79500.png",
+        "alt": "",
+        "math": false,
+        "destination": "images/complex-plane.png"
+      },
+      {
+        "index": 24,
+        "src": "https://i-blog.csdnimg.cn/direct/92e7c45e70ce4ecf82b2fcab28032bfb.png",
+        "alt": "",
+        "math": false,
+        "destination": "images/cosine-projection.png"
+      },
+      {
+        "index": 25,
+        "src": "https://i-blog.csdnimg.cn/direct/df3b47aeae224fcdb63e2b7a91280b77.png",
+        "alt": "旋转向量在t-y平面的投影，其实就是sin t",
+        "math": false,
+        "destination": "images/sine-projection.png"
+      }
+    ],
+    "source": "https://blog.csdn.net/weixin_40137374/article/details/149810506"
+  },
+  {
+    "part": 2,
+    "id": "151228492",
+    "images": [
+      {
+        "index": 0,
+        "src": "https://i-blog.csdnimg.cn/direct/11294aa6dfae478085a6eec2a207f5d1.png",
+        "alt": "",
+        "math": false,
+        "destination": "images/unit-impulse.svg"
+      },
+      {
+        "index": 1,
+        "src": "https://i-blog.csdnimg.cn/direct/aa2b3e05b87d4bccb76bfdba643ab539.png",
+        "alt": "",
+        "math": false,
+        "destination": "MathML: unit impulse definition"
+      },
+      {
+        "index": 2,
+        "src": "https://i-blog.csdnimg.cn/direct/c977ddc170fc44b9a1572fa152398a5f.png",
+        "alt": "",
+        "math": false,
+        "destination": "images/impulse-decomposition.svg"
+      },
+      {
+        "index": 3,
+        "src": "https://i-blog.csdnimg.cn/direct/2b6504ee67e24b76abefea0d6c85d640.png",
+        "alt": "",
+        "math": false,
+        "destination": "MathML: impulse expansion"
+      },
+      {
+        "index": 4,
+        "src": "https://i-blog.csdnimg.cn/direct/886cf7014ddb441b82e82db4be871e9b.png",
+        "alt": "",
+        "math": false,
+        "destination": "images/discrete-time-system.svg"
+      },
+      {
+        "index": 5,
+        "src": "https://latex.csdn.net/eq?x_%7B1%7D%5Bn%5D%20&plus;%20x_%7B2%7D%5Bn%5D",
+        "alt": "x_{1}[n] + x_{2}[n]",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 6,
+        "src": "https://latex.csdn.net/eq?y_%7B1%7D%5Bn%5D%20&plus;%20y_%7B2%7D%5Bn%5D",
+        "alt": "y_{1}[n] + y_{2}[n]",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 7,
+        "src": "https://latex.csdn.net/eq?ax_%7B1%7D%5Bn%5D%20&plus;%20bx_%7B2%7D%5Bn%5D",
+        "alt": "ax_{1}[n] + bx_{2}[n]",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 8,
+        "src": "https://latex.csdn.net/eq?ay_%7B1%7D%5Bn%5D%20&plus;%20by_%7B2%7D%5Bn%5D",
+        "alt": "ay_{1}[n] + by_{2}[n]",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 9,
+        "src": "https://i-blog.csdnimg.cn/direct/dc2dcd43c5984a9aad54fca7f060a2f1.png",
+        "alt": "",
+        "math": false,
+        "destination": "MathML: convolution derivation flow"
+      },
+      {
+        "index": 10,
+        "src": "https://latex.csdn.net/eq?h%5Bn%5D",
+        "alt": "h[n]",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 11,
+        "src": "https://i-blog.csdnimg.cn/direct/5149737b00774f5db7c54c82d9f3dcdc.png",
+        "alt": "",
+        "math": false,
+        "destination": "images/convolution-example.svg"
+      },
+      {
+        "index": 12,
+        "src": "https://i-blog.csdnimg.cn/direct/ffdce97f67364c7aa192fd45fe172e0e.png",
+        "alt": "",
+        "math": false,
+        "destination": "MathML: convolution notation"
+      },
+      {
+        "index": 13,
+        "src": "https://latex.csdn.net/eq?x%5Bn%5D%3De%5E%7Biwn%7D%3Dz%5E%7Bn%7D",
+        "alt": "x[n]=e^{iwn}=z^{n}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 14,
+        "src": "https://latex.csdn.net/eq?w",
+        "alt": "w",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 15,
+        "src": "https://latex.csdn.net/eq?w",
+        "alt": "w",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 16,
+        "src": "https://latex.csdn.net/eq?e%5E%7Biwn%7D",
+        "alt": "e^{iwn}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 17,
+        "src": "https://latex.csdn.net/eq?e%5E%7Bit%7D",
+        "alt": "e^{it}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 18,
+        "src": "https://latex.csdn.net/eq?w%3D0.01",
+        "alt": "w=0.01",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 19,
+        "src": "https://latex.csdn.net/eq?x%5B1%5D%3De%5E%7B0.01i%7D",
+        "alt": "x[1]=e^{0.01i}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 20,
+        "src": "https://latex.csdn.net/eq?x%5B2%5D%3De%5E%7B0.02i%7D",
+        "alt": "x[2]=e^{0.02i}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 21,
+        "src": "https://latex.csdn.net/eq?x%5B3%5D%3De%5E%7B0.03i%7D",
+        "alt": "x[3]=e^{0.03i}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 22,
+        "src": "https://latex.csdn.net/eq?z%5E%7Bn%7D",
+        "alt": "z^{n}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 23,
+        "src": "https://latex.csdn.net/eq?z%5E%7Bn%7D",
+        "alt": "z^{n}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 24,
+        "src": "https://latex.csdn.net/eq?z%5E%7Bn%7D",
+        "alt": "z^{n}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 25,
+        "src": "https://latex.csdn.net/eq?y%5Bn%5D%3D%5Csum_%7Bk%3D-%5Cinfty%20%7D%5E%7B&plus;%5Cinfty%20%7Dz%5Ekh%5Bn-k%5D",
+        "alt": "y[n]=\\sum_{k=-\\infty }^{+\\infty }z^kh[n-k]",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 26,
+        "src": "https://latex.csdn.net/eq?%3D%5Csum_%7Bk%3D-%5Cinfty%20%7D%5E%7B&plus;%5Cinfty%20%7Dz%5Bk%5Dh%5Bn-k%5D",
+        "alt": "=\\sum_{k=-\\infty }^{+\\infty }z[k]h[n-k]",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 27,
+        "src": "https://latex.csdn.net/eq?%3D%5Csum_%7Bk%3D-%5Cinfty%20%7D%5E%7B&plus;%5Cinfty%20%7Dh%5Bk%5Dz%5Bn-k%5D",
+        "alt": "=\\sum_{k=-\\infty }^{+\\infty }h[k]z[n-k]",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 28,
+        "src": "https://latex.csdn.net/eq?%3D%5Csum_%7Bk%3D-%5Cinfty%20%7D%5E%7B&plus;%5Cinfty%20%7Dh%5Bk%5Dz%5E%7Bn-k%7D",
+        "alt": "=\\sum_{k=-\\infty }^{+\\infty }h[k]z^{n-k}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 29,
+        "src": "https://latex.csdn.net/eq?%3D%5Csum_%7Bk%3D-%5Cinfty%20%7D%5E%7B&plus;%5Cinfty%20%7Dh%5Bk%5Dz%5Enz%5E%7B-k%7D",
+        "alt": "=\\sum_{k=-\\infty }^{+\\infty }h[k]z^nz^{-k}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 30,
+        "src": "https://latex.csdn.net/eq?%3Dz%5En%5Csum_%7Bk%3D-%5Cinfty%20%7D%5E%7B&plus;%5Cinfty%20%7Dh%5Bk%5Dz%5E%7B-k%7D",
+        "alt": "=z^n\\sum_{k=-\\infty }^{+\\infty }h[k]z^{-k}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 31,
+        "src": "https://i-blog.csdnimg.cn/direct/b2c99c4a164444598b2caaacf2d2a6c2.png",
+        "alt": "",
+        "math": false,
+        "destination": "MathML and translated text: commutativity proof"
+      },
+      {
+        "index": 32,
+        "src": "https://latex.csdn.net/eq?z%5E%7Bn-k%7D%3De%5E%7Biw%28n-k%29%7D%3De%5E%7Biwn%7De%5E%7Biw%28-k%29%7D%3Dz%5Enz%5E%7B-k%7D",
+        "alt": "z^{n-k}=e^{iw(n-k)}=e^{iwn}e^{iw(-k)}=z^nz^{-k}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 33,
+        "src": "https://latex.csdn.net/eq?z%5En",
+        "alt": "z^n",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 34,
+        "src": "https://latex.csdn.net/eq?k",
+        "alt": "k",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 35,
+        "src": "https://latex.csdn.net/eq?y%5Bn%5D%3Dz%5En%5Csum_%7Bk%3D-%5Cinfty%20%7D%5E%7B&plus;%5Cinfty%20%7Dh%5Bk%5Dz%5E%7B-k%7D",
+        "alt": "y[n]=z^n\\sum_{k=-\\infty }^{+\\infty }h[k]z^{-k}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 36,
+        "src": "https://latex.csdn.net/eq?z%5E%7Bn%7D",
+        "alt": "z^{n}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 37,
+        "src": "https://latex.csdn.net/eq?%5Csum_%7Bk%3D-%5Cinfty%20%7D%5E%7B&plus;%5Cinfty%20%7Dh%5Bk%5Dz%5E%7B-k%7D",
+        "alt": "\\sum_{k=-\\infty }^{+\\infty }h[k]z^{-k}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 38,
+        "src": "https://latex.csdn.net/eq?y%5Bn%5D%3Dz%5E%7Bn%7De%5E%7Ba&plus;bi%7D%3De%5E%7Biwn%7De%5E%7Ba&plus;bi%7D%3De%5E%7Ba%7De%5E%7Bi%28wn&plus;b%29%7D",
+        "alt": "y[n]=z^{n}e^{a+bi}=e^{iwn}e^{a+bi}=e^{a}e^{i(wn+b)}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 39,
+        "src": "https://i-blog.csdnimg.cn/direct/4aeba1feeed741069edde039f6800285.png",
+        "alt": "",
+        "math": false,
+        "destination": "Translated text: eigenfunction and eigenvalue quotation"
+      }
+    ],
+    "source": "https://blog.csdn.net/weixin_40137374/article/details/151228492"
+  },
+  {
+    "part": 3,
+    "id": "151264661",
+    "images": [
+      {
+        "index": 0,
+        "src": "https://latex.csdn.net/eq?a_%7Bk%7D",
+        "alt": "a_{k}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 1,
+        "src": "https://latex.csdn.net/eq?%5Cphi%20_%7Bk%7D%5Bn%5D%3De%5E%7Bjkw_%7B0%7Dn%7D%3De%5E%7Bjk%282%5Cpi%20/N%29n%7D%2C%20k%3D0%2C1%2C2...N-1",
+        "alt": "\\phi _{k}[n]=e^{jkw_{0}n}=e^{jk(2\\pi /N)n}, k=0,1,2...N-1",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 2,
+        "src": "https://i-blog.csdnimg.cn/direct/71c73e19d8a74f21b2bb8ba9ce5af01a.png",
+        "alt": "",
+        "math": false,
+        "destination": "MathML: Fourier synthesis"
+      },
+      {
+        "index": 3,
+        "src": "https://latex.csdn.net/eq?a_%7Bk%7D",
+        "alt": "a_{k}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 4,
+        "src": "https://latex.csdn.net/eq?a_%7Bk%7D",
+        "alt": "a_{k}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 5,
+        "src": "https://i-blog.csdnimg.cn/direct/c7334f93b6eb46bb96d32562ce264564.png",
+        "alt": "",
+        "math": false,
+        "destination": "MathML: multiply and sum"
+      },
+      {
+        "index": 6,
+        "src": "https://i-blog.csdnimg.cn/direct/c3601764d6d0484eb167724af6938c15.png",
+        "alt": "",
+        "math": false,
+        "destination": "MathML: interchange summations"
+      },
+      {
+        "index": 7,
+        "src": "https://i-blog.csdnimg.cn/direct/d148ed39742e4ee1876ee9c91d631fc3.png",
+        "alt": "",
+        "math": false,
+        "destination": "MathML: orthogonality identity"
+      },
+      {
+        "index": 8,
+        "src": "https://i-blog.csdnimg.cn/direct/ef48e9cd56dd49a7a30d3327b90c15ac.png",
+        "alt": "",
+        "math": false,
+        "destination": "MathML: coefficient formula"
+      },
+      {
+        "index": 9,
+        "src": "https://latex.csdn.net/eq?a_%7B0%7D%2Ca_%7B1%7D%2Ca_%7B2%7D...a_%7BN-1%7D",
+        "alt": "a_{0},a_{1},a_{2}...a_{N-1}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 10,
+        "src": "https://latex.csdn.net/eq?a_%7B1%7D",
+        "alt": "a_{1}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 11,
+        "src": "https://latex.csdn.net/eq?e%5E%7Bj1%5Ccdot%20%282%5Cpi%20/N%29n%7D",
+        "alt": "e^{j1\\cdot (2\\pi /N)n}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 12,
+        "src": "https://latex.csdn.net/eq?e%5E%7Bj1%5Ccdot%20%282%5Cpi%20/N%29n%7D",
+        "alt": "e^{j1\\cdot (2\\pi /N)n}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 13,
+        "src": "https://latex.csdn.net/eq?a_%7B2%7D",
+        "alt": "a_{2}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 14,
+        "src": "https://latex.csdn.net/eq?e%5E%7Bj2%5Ccdot%20%282%5Cpi%20/N%29n%7D",
+        "alt": "e^{j2\\cdot (2\\pi /N)n}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 15,
+        "src": "https://i-blog.csdnimg.cn/direct/6d8f86ba17444b8c9154a077daa3676e.png",
+        "alt": "",
+        "math": false,
+        "destination": "MathML: Fourier synthesis"
+      },
+      {
+        "index": 16,
+        "src": "https://latex.csdn.net/eq?x%5B0%5D%3D%5Csum_%7Bk%7D%5E%7B%7Da_%7Bk%7De%5E%7Bjk%282%5Cpi/N%20%29%5Ccdot%200%7D",
+        "alt": "x[0]=\\sum_{k}^{}a_{k}e^{jk(2\\pi/N )\\cdot 0}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 17,
+        "src": "https://latex.csdn.net/eq?x%5B1%5D%3D%5Csum_%7Bk%7D%5E%7B%7Da_%7Bk%7De%5E%7Bjk%282%5Cpi/N%20%29%5Ccdot%201%7D",
+        "alt": "x[1]=\\sum_{k}^{}a_{k}e^{jk(2\\pi/N )\\cdot 1}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 18,
+        "src": "https://latex.csdn.net/eq?x%5B2%5D%3D%5Csum_%7Bk%7D%5E%7B%7Da_%7Bk%7De%5E%7Bjk%282%5Cpi/N%20%29%5Ccdot%202%7D",
+        "alt": "x[2]=\\sum_{k}^{}a_{k}e^{jk(2\\pi/N )\\cdot 2}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 19,
+        "src": "https://latex.csdn.net/eq?x%5BN-1%5D%3D%5Csum_%7Bk%7D%5E%7B%7Da_%7Bk%7De%5E%7Bjk%282%5Cpi/N%20%29%5Ccdot%20%28N-1%29%7D",
+        "alt": "x[N-1]=\\sum_{k}^{}a_{k}e^{jk(2\\pi/N )\\cdot (N-1)}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 20,
+        "src": "https://latex.csdn.net/eq?x%5Bn%5D",
+        "alt": "x[n]",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 21,
+        "src": "https://latex.csdn.net/eq?a_%7B0%7D%2Ca_%7B1%7D%2Ca_%7B2%7D...a_%7BN-1%7D",
+        "alt": "a_{0},a_{1},a_{2}...a_{N-1}",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 22,
+        "src": "https://latex.csdn.net/eq?x%5Bn%5D",
+        "alt": "x[n]",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 23,
+        "src": "https://i-blog.csdnimg.cn/direct/6d8f86ba17444b8c9154a077daa3676e.png",
+        "alt": "",
+        "math": false,
+        "destination": "MathML: Fourier synthesis"
+      },
+      {
+        "index": 24,
+        "src": "https://latex.csdn.net/eq?%5Cphi%20_%7B0%7D%5Bn%5D",
+        "alt": "\\phi _{0}[n]",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 25,
+        "src": "https://latex.csdn.net/eq?%5Cphi%20_%7BN/2%7D%5Bn%5D",
+        "alt": "\\phi _{N/2}[n]",
+        "math": true,
+        "destination": "MathML: original LaTeX transcribed"
+      },
+      {
+        "index": 26,
+        "src": "https://i-blog.csdnimg.cn/direct/802a36f5c9084dbd9654f31f1182d56f.png",
+        "alt": "",
+        "math": false,
+        "destination": "images/sample-rate-comparison.png"
+      },
+      {
+        "index": 27,
+        "src": "https://i-blog.csdnimg.cn/direct/1cd11c7891e24805b5bc2cd3fdbe0c8c.png",
+        "alt": "",
+        "math": false,
+        "destination": "images/spectrum-48k.png"
+      },
+      {
+        "index": 28,
+        "src": "https://i-blog.csdnimg.cn/direct/7f16a5e068724c2ba6fa67e27bb235a6.png",
+        "alt": "",
+        "math": false,
+        "destination": "images/spectrum-24k.png"
+      }
+    ],
+    "source": "https://blog.csdn.net/weixin_40137374/article/details/151264661"
+  }
+]

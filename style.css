@@ -114,6 +114,14 @@ time {
   margin-top: 12px;
 }
 
+.journal-series-parts {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
 .entries > .journal-project {
   margin-top: 22px;
 }
