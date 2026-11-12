@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A diagram-led tour of SA8295 cockpit audio: built-in amplifiers, external amplifiers, boosters, and A2B networks, drawn from real automotive projects.">
+<title>Automotive Cockpit Audio Architecture: The Hardware — Corey Chen</title>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../i2s-tdm/article.css">
+<link rel="stylesheet" href="article.css">
+<link rel="stylesheet" href="../../image-viewer.css">
+<script src="../../image-viewer.js" defer></script>
+</head>
+<body class="article-page">
+<header><a class="site-title" href="../../index.html">Corey Chen</a><a class="email" href="mailto:corey.chen@tymphany.com">corey.chen@tymphany.com</a></header>
+<main><a class="back-link" href="../../index.html">← Journal</a><article>
+<h1>Automotive Cockpit Audio Architecture: The Hardware</h1>
+<p>It is time for the annual Guangzhou Auto Show again. This year’s cars seem to have a little less novelty and a little more in common. China’s automotive industry seems to be quietly moving from its pioneering days into an era of holding on to what it has built. Just another industry’s tides rising and falling, its landscape changing. But having been part of it myself, I cannot help feeling a little more about it than someone watching from the outside.</p>
+<p>Using Qualcomm’s SA8295 platform as an example, this article introduces the mainstream automotive cockpit audio architectures used in China between 2021 and 2025. Technology moves quickly, but these architectures should still offer some useful reference points over the next few years. There is already plenty of material on this subject online. This post mainly draws on projects I have personally worked on, bringing together some technical thoughts and industry observations from my own experience.</p>
+<p>I will explain the key terms as we go and build the discussion around clear architecture diagrams. So even if you are an audio expert from outside the automotive industry, you should find it easy to follow.</p>
+<p>Enough talk. Let’s get straight to the diagrams.</p>
+<h2 id="built-in">1. Head unit with built-in amplifiers</h2>
+<p>A built-in amplifier means that the amplifier chips—<strong>AMP</strong> for short—and the main SoC are integrated on the same PCB, allowing the head unit to drive external speakers directly.</p>
+<p>The advantage is relatively low cost, but the drawbacks are just as obvious. If a vehicle has a lot of speakers—more than twenty, for example—it becomes difficult to fit enough amplifier chips inside the head unit. An audio system also consumes a considerable amount of power, placing greater demands on the head unit’s cooling and power management. That is why <strong>built-in amplifiers are usually found in lower-spec models with fewer speakers</strong>.</p>
+<figure class="architecture"><a class="figure-image" href="images/built-in-amplifier.svg" title="View full image"><img src="images/built-in-amplifier.svg" width="1150" height="1380" alt="A head unit with built-in amplifier chips, based on the Qualcomm SA8295 platform." loading="lazy" decoding="async"></a><figcaption>A head unit with built-in amplifier chips, based on the Qualcomm SA8295 platform.</figcaption></figure>
+<p>The design in this diagram uses two AMP chipsets to build a 5.0 audio system. A 5.0 system is essentially a standard 5.1-channel system with the subwoofer removed. Subwoofers consume a lot of power, so a built-in amplifier design generally cannot drive one.</p>
+<p>A 5.1-channel system consists of front left, front right, center, left surround, right surround, and a dedicated subwoofer. Since 2000, it has remained <strong>the most mainstream multichannel home audio format</strong>. Even today, when we download American TV shows online with multichannel soundtracks, Dolby 5.1 and DTS 5.1 are still the mainstream choices.</p>
+<p>The evolution and widespread adoption of 5.1 came both from listeners’ relentless pursuit of immersive surround sound and from the long-running competition and cooperation between the two giants, Dolby and DTS.</p>
+<p>In my view, 5.1 is the simplest and most effective configuration for surround sound. Compared with traditional stereo, adding a separate center channel greatly improves the clarity and placement of movie dialogue. Adding a pair of rear surround channels creates the feeling of sound coming from behind you, making the experience much more immersive.</p>
+<p>As for the subwoofer, its job is to reproduce very low frequencies from 20 Hz to 120 Hz, giving explosions, thunder, and drumbeats more impact. Ordinary speakers struggle to reach effectively below 120 Hz, and human hearing is not very sensitive to the direction of low-frequency sound. So the usual industry practice is to mix the signals below 120 Hz from the three front channels and the surround channels together, and send them to a dedicated subwoofer. That way, the overall sound keeps its power and punch.</p>
+<figure class="surround-layout"><a class="figure-image" href="images/surround-5-1.svg" title="View full image"><img src="images/surround-5-1.svg" width="600" height="480" alt="The speaker arrangement of a 5.1-channel system." loading="lazy" decoding="async"></a><figcaption>The speaker arrangement of a 5.1-channel system.</figcaption></figure>
+<p>The architecture diagram makes extensive use of I2S and TDM. If these are unfamiliar, have a look at my earlier article:</p>
+<p><a href="../i2s-tdm/index.html">Getting Started with Embedded Audio: I2S and TDM in Practice</a></p>
+<p>A note on the head unit’s external connections in the diagrams: solid lines represent <strong>analog signal transmission</strong>, such as an amplifier sending analog electrical signals directly to a speaker. Dotted lines represent <strong>digital signal transmission</strong>.</p>
+<p>Take radio reception as an example. A traditional <strong>tuner</strong>, used to receive AM/FM broadcasts, processes analog signals. When reception is weak, we hear that “shhh” noise. That happens because the tuner chip is demodulating an analog signal: interference and distortion show up directly as poorer sound quality.</p>
+<p><strong>DAB</strong>, on the other hand, is mainly widespread in Europe. Its audio is digital right from the source, and what travels through the air is a <strong>modulated digital signal</strong>. This gives it strong resistance to interference. As long as the signal reaches the decoding threshold, lossless digital audio can be recovered, without the kind of sound degradation we get with analog signals.</p>
+<p>The Qualcomm SA8295 integrates multiple ARM cores and three types of dedicated Hexagon DSP cores. The ARM cores mainly run the QNX + Android hypervisor operating system, while the Hexagon DSPs focus on digital signal processing algorithms.</p>
+<p>The sizes of the blocks in the diagram do not represent differences in computing power. They simply make it easier for me to draw the connections.</p>
+<h2 id="external">2. Head unit connected to an external amplifier</h2>
+<h3>What is an external amplifier?</h3>
+<p>With an external amplifier, the head unit does not drive the speakers directly. Instead, it sends the audio to a <strong>separate external device</strong> for processing and power amplification.</p>
+<p>This external amplifier module usually integrates an <strong>A2B</strong> chip for high-speed audio data transmission, an <strong>MCU</strong> to handle <strong>CAN</strong> commands, and a dedicated <strong>DSP</strong> for complex audio algorithms. A separate unit allows cooling and power output to be considered more fully, improving system stability. This design is also generally used in mid-range and premium vehicles, helping distribute costs sensibly across more highly equipped systems.</p>
+<p>In operation, the head unit sends <strong>multichannel PCM digital audio to the external amplifier</strong> over the Automotive Audio Bus, or A2B. The DSP inside the amplifier processes the sound, and the amplifier then drives the corresponding speakers.</p>
+<figure class="architecture"><a class="figure-image" href="images/external-amplifier.svg" title="View full image"><img src="images/external-amplifier.svg" width="1150" height="1950" alt="The head unit sends multichannel PCM to an external amplifier, which has its own DSP and MCU." loading="lazy" decoding="async"></a><figcaption>The head unit sends multichannel PCM to an external amplifier, which has its own DSP and MCU.</figcaption></figure>
+<p>Unlike the limited driving capability of an amplifier built into the head unit, <strong>external amplifiers are mostly used for 7.1.4 systems</strong>. The 7.1.4 layout consists of seven channels—front left, center, front right, left surround, right surround, left rear surround, and right rear surround—one subwoofer channel, and four height channels that are key to the sense of space: top front left, top front right, top rear left, and top rear right.</p>
+<figure class="medium"><a class="figure-image" href="images/surround-7-1-4.png" title="View full image"><img src="images/optimized/surround-7-1-4.webp" width="600" height="359" alt="Seven ear-level channels, one subwoofer channel, and four height channels." loading="lazy" decoding="async"></a><figcaption>Seven ear-level channels, one subwoofer channel, and four height channels.</figcaption></figure>
+<p>7.1.4 has become synonymous with the highest level of immersive audio, thanks in large part to the popularity of Dolby Atmos. But the value of Dolby Atmos goes well beyond adding more channels. Its core idea of “sound objects” fundamentally changed how audio is produced and played back. If you would like to dig deeper, professional material such as the <cite>Dolby Atmos Mixing Guide</cite> is worth reading.</p>
+<p>One thing is clear: <strong>there is little point in chasing more channels beyond 7.1.4</strong>. The Dolby Atmos content currently available is mainly optimized for a 7.1.4 layout. Even if the hardware supports more channels, there is almost <strong>no corresponding native content to experience, so the actual improvement is extremely limited</strong>.</p>
+<p>Beyond the core channels, an external amplifier can also drive headrest speakers at every seat and even speakers outside the vehicle. Mainstream external amplifiers today often connect to thirty or forty speakers. Their output and integration capabilities are impressive.</p>
+<p>External amplifiers are also an important battleground for audio brands such as Harman Kardon and Bose. These companies usually integrate their own sound-processing algorithms into the amplifier’s DSP. As for how they actually sound, that comes down to personal taste—everyone has their favorites.</p>
+<h3>Audio transmission between the head unit and external amplifier</h3>
+<p>The head unit and external amplifier exchange multichannel PCM over A2B in both directions, with clear roles for the uplink and downlink:</p>
+<dl class="signal-directions">
+<dt>Uplink — to the head unit</dt>
+<dd><p><strong>Content:</strong> The audio currently playing through the external amplifier’s speakers, such as front left, front right, rear left, rear right, and center.</p><p><strong>Purpose:</strong> Mainly to provide reference signals for the head unit’s <strong>echo cancellation</strong> algorithm.</p></dd>
+<dt>Downlink — to the amplifier</dt>
+<dd><p><strong>Content:</strong> Usually more than twenty channels. For example: media audio (twelve channels for 7.1.4), navigation (one), phone calls (one), voice assistant (one), and instrument-cluster sounds (four: front, rear, left, and right).</p><p><strong>Note:</strong> This gets into specific functional designs, so I will not go further for confidentiality reasons.</p></dd>
+</dl>
+<h3>Some real-world scenarios</h3>
+<p>Finally, let’s finish our introduction to external amplifiers with a few practical scenarios.</p>
+<h4>Waking the voice assistant while playing Dolby Atmos</h4>
+<p>When the owner plays Dolby Atmos content through NetEase Cloud Music and wakes the head unit’s voice assistant, the system responds like this:</p>
+<ol><li>The first twelve A2B downlink channels carry media audio, while the uplink channels carry reference signals sent back by the external amplifier.</li><li>The head unit’s voice assistant continuously runs echo cancellation. With accurate reference signals, it can recognize the owner’s spoken wake-up command precisely, even when the music is loud.</li><li>Once awake, the voice assistant plays its “Hello” response through the A2B downlink channel dedicated to voice interaction.</li></ol>
+<h4>Switching a Bluetooth call into headrest mode</h4>
+<p>Suppose the owner is on a Bluetooth call through the head unit and switches to headrest mode when the conversation becomes private:</p>
+<ol><li>During the call, the A2B downlink phone-audio channel carries the other person’s voice, played through the front-left and front-right speakers.</li><li>As soon as the owner switches to headrest mode, a CAN message is sent to the external amplifier, instructing it to route the call to the driver’s headrest speakers.</li></ol>
+<p>Notice that, in headrest mode, the A2B downlink phone-audio channel <strong>has not changed</strong>. It is still the same channel.</p>
+<h4>Outdoor playback while camping</h4>
+<p>The owner wants to play music outside the vehicle while camping. After outdoor playback mode is enabled:</p>
+<p>A CAN message for outdoor playback mode is sent to the external amplifier, which routes the media audio to the exterior speakers.</p>
+<h2 id="booster">3. Head unit connected to a booster amplifier</h2>
+<p>A booster amplifier can be seen as a <strong>lower-cost version</strong> of an ordinary external amplifier. The thinking is simple: if the amplifier’s core job is power amplification, why not remove all of its logic-processing units, such as the MCU and DSP, and keep only the basic A2B transceiver and power amplifier (AMP) circuitry? That simplified amplifier is a booster.</p>
+<figure class="architecture"><a class="figure-image" href="images/booster-amplifier.svg" title="View full image"><img src="images/booster-amplifier.svg" width="1150" height="1950" alt="A booster keeps the A2B transceiver and AMP circuitry, with processing and routing in the head unit." loading="lazy" decoding="async"></a><figcaption>A booster keeps the A2B transceiver and AMP circuitry, with processing and routing in the head unit.</figcaption></figure>
+<p>So who configures the registers of the AMP chips inside the booster? This is where another capability of A2B comes in. As well as carrying multichannel PCM audio, it can use tunneling to carry <strong>I2C control signals</strong> at the same time. Once the head unit and booster have established an A2B connection, the head unit can configure the booster’s AMP registers remotely.</p>
+<p>Because the architecture is so simple, there is no software or complex logic device inside the booster. It becomes a “pure hardware” slave device, controlled entirely by the head unit. The hardware department can therefore design the booster circuitry on its own, without support from a software team.</p>
+<p>Of course, a booster behaves quite differently from a standard external amplifier in practice. Because of its simplified design, each channel of the multichannel PCM sent over A2B maps directly to one of the speakers connected to the booster.</p>
+<p>For example, suppose the first twelve A2B channels are assigned to cabin speakers and the thirteenth is reserved for an exterior speaker. To enable outdoor playback, the head unit’s DSP only needs to route the audio to channel thirteen. All of the audio-routing logic lives in the head unit.</p>
+<h2 id="a2b">4. A2B is pretty powerful</h2>
+<p>A2B brings audio, data, and power together on one bus. It carries multichannel PCM audio and I2C commands, and can also provide a small amount of power remotely.</p>
+<p>The most complex A2B design I have implemented, shown below, is a good example. The A2B microphones in this system draw power directly from the bus, with no additional power wiring.</p>
+<figure class="architecture"><a class="figure-image" href="images/a2b-network.svg" title="View full image"><img src="images/a2b-network.svg" width="1540" height="780" alt="An A2B network with front and rear head units, an external amplifier, and cabin and exterior microphones." loading="lazy" decoding="async"></a><figcaption>An A2B network with front and rear head units, an external amplifier, and cabin and exterior microphones.</figcaption></figure>
+<p>And the audio latency introduced by A2B is only on the order of tens of microseconds. That’s pretty damn impressive.</p>
+<p>A2B development mainly uses ADI’s graphical tool:</p>
+<p><a href="https://www.analog.com/en/resources/evaluation-hardware-and-software/embedded-development-software/ss_sigst_02.html">ADI SigmaStudio</a></p>
+<p>If you are interested, download it and have a play.</p>
+<figure><a class="figure-crop" href="images/sigmastudio.png" title="View full image" style="aspect-ratio: 880 / 370; --image-width: 218.181818%; --image-left: -29.545455%; --image-top: -43.243243%"><img src="images/optimized/sigmastudio.webp" width="1920" height="1032" alt="A2B nodes and audio routing in ADI SigmaStudio." loading="lazy" decoding="async"></a><figcaption>An A2B project in SigmaStudio.</figcaption></figure>
+<p>That’s everything for now. If you are interested, I will write a separate post, <cite>Automotive Cockpit Audio Architecture: The Software</cite>.</p>
+
+</article></main></body></html>

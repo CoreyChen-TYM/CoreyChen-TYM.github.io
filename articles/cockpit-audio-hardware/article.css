@@ -1,0 +1,29 @@
+article .architecture img {
+  border: 0;
+}
+article .surround-layout {
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+article .surround-layout img {
+  border: 0;
+}
+article h4 {
+  margin: 1.5em 0 0.5em;
+  font-size: 1em;
+  line-height: 1.4;
+}
+.signal-directions {
+  margin: 1.5em 0;
+}
+.signal-directions dt {
+  font-weight: 700;
+  margin-top: 1.25em;
+}
+.signal-directions dd {
+  margin-left: 1.2em;
+}
+.signal-directions p {
+  margin: 0.5em 0;
+}
