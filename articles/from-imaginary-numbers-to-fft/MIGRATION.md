@@ -85,3 +85,5 @@ the browser. At a 390-pixel viewport, the three articles have no horizontal
 page overflow. Clicking an enlarged image closes it and restores focus.
 
 Replaced the unavailable 23bei calculator link with Calxy’s convolution calculator. Browser verification using x={2,1,1}, h={4,2,1} produced {8,8,8,3,1}, with per-output product steps.
+
+Image delivery optimization: article img sources now use quality-90 WebP copies (maximum 1600 px per dimension); small PNGs and SVG diagrams are retained. Figure links continue to open the untouched full PNGs. Journal hover previews use separate 720×520-bounded WebP files. Rebuild with scripts/generate_article_previews.py. Original full-resolution files were checked against Git and remain byte-for-byte unchanged.

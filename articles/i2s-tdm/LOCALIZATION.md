@@ -134,3 +134,5 @@ removed. Figure captions now follow the original discussion.
 Figure 07: remaining Chinese annotations translated into English and lower-right website URL removed at the author’s request. Hex value 0x91261400 retained.
 
 Lab naming update: full archive i2s-tdm-lab-v2.7z now extracts to i2s-tdm-lab/; small kit renamed i2s-tdm-lab-kit.zip. Updated article and bundled READMEs. SHA-256: a4961b4b990320a564b98a8521f7fe587f35567a2d24dbba2454aad7969af922
+
+Image delivery optimization: article img sources now use quality-90 WebP copies (maximum 1600 px per dimension); small PNGs and SVG diagrams are retained. Figure links continue to open the untouched full PNGs. Journal hover previews use separate 720×520-bounded WebP files. Rebuild with scripts/generate_article_previews.py. Original full-resolution files were checked against Git and remain byte-for-byte unchanged.
