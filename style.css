@@ -11,7 +11,7 @@
   font-family: "Roboto", sans-serif;
   font-size: 16px;
   line-height: 1.8;
-  color: #292929;
+  color: #111;
   background: #fff;
 }
 
@@ -37,8 +37,9 @@ header {
 
 .site-title {
   color: inherit;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
   text-decoration: none;
 }
 
@@ -71,6 +72,27 @@ h1 {
   line-height: 1.4;
 }
 
+.journal-title {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 14px;
+}
+
+.entries a {
+  font-weight: 700;
+}
+
+.entry-type {
+  margin-right: 6px;
+  color: #666;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
 .entries {
   margin: 0;
   padding: 0;
@@ -101,8 +123,9 @@ time {
 }
 
 .entries time {
-  color: #777;
-  font-size: 14px;
+  color: inherit;
+  font-size: 16px;
+  font-weight: 400;
   white-space: nowrap;
 }
 
@@ -176,8 +199,14 @@ time {
 }
 
 a {
-  color: #2a64a0;
+  color: inherit;
+  text-decoration: none;
   text-underline-offset: 4px;
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration: underline;
 }
 
 .back-link {

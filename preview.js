@@ -31,10 +31,11 @@ function hidePreview() {
 }
 
 function showPreview(link, x, y) {
+  if (document.querySelector(".image-viewer[open]")) return;
   activeLink = link;
   anchor = { x, y };
   preview.hidden = true;
-  photo.src = link.href;
+  photo.src = link.dataset.previewSrc || link.href;
   if (photo.complete && photo.naturalWidth) {
     preview.hidden = false;
     positionPreview();
@@ -48,7 +49,7 @@ photo.addEventListener("load", () => {
 });
 photo.addEventListener("error", () => { preview.hidden = true; });
 
-document.querySelectorAll(".journal-project a, a[data-preview]").forEach((link) => {
+document.querySelectorAll(".journal-project a, a[data-preview], a[data-preview-src]").forEach((link) => {
   link.addEventListener("pointerenter", (event) => {
     if (event.pointerType === "touch") return;
     showPreview(link, event.clientX, event.clientY);

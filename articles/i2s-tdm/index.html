@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A practical introduction to PCM, sample rate, bit depth, and channels, followed by decoding real I2S and TDM captures into playable audio.">
+    <title>Getting Started with Embedded Audio: I2S and TDM in Practice — Corey Chen</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="article.css">
+    <link rel="stylesheet" href="../../image-viewer.css">
+  </head>
+  <body class="article-page">
+    <header>
+      <a class="site-title" href="../../index.html">Corey Chen</a>
+      <a class="email" href="mailto:corey.chen@tymphany.com">corey.chen@tymphany.com</a>
+    </header>
+    <main>
+      <a class="back-link" href="../../index.html">← Journal</a>
+      <article>
+
+<h1>Getting Started with Embedded Audio: I2S and TDM in Practice</h1>
+<h2 id="introduction">Before we begin</h2>
+<p>If you are interested in embedded audio, have a look at <cite><a href="https://www.dspguide.com/editions.htm">Digital Signal Processing: A Practical Guide for Engineers and Scientists</a></cite>. I think this book covers pretty much the theoretical foundations of the field, although fully understanding it takes a lot of background knowledge.</p>
+<p>But in this post, I will keep things as easy to understand as possible, without jumping straight into technical jargon. I want embedded engineers who are just starting out and university students to be able to follow along—even engineers who work purely on software should get something out of it.</p>
+<p>This post tries to answer one question: what is at the heart of a modern digital audio system? (A bit like explaining what steel is to a steelworker.)</p>
+<h2 id="basics">A really visual introduction to the terminology</h2>
+<p>Let me start with these terms: <strong>sample rate, bit depth, and channels</strong>. You can use these three terms to define any sound in the computer world.</p>
+<h3>Sample rate</h3>
+<p>First, download <a href="https://www.audacityteam.org/">Audacity</a>. It is a simple, open-source audio editor.</p>
+<p>Use it to open <code>test.wav</code> from this post’s attachments, or an <code>.mp3</code> file of your own, and so on.</p>
+<p>Click the magnifying glass <img class="inline-icon" src="images/00.png" alt="Zoom in" width="24" height="20"> to zoom in. Once you zoom in far enough, you can see individual dots.</p>
+<p>This is how computers store audio: one sample point after another.</p>
+<figure class="figure-overview"><a class="figure-image" href="images/01.png" title="View full image"><img width="814" height="465" src="images/01.png" alt="Stereo audio waveform in Audacity before zooming in." loading="lazy"></a><figcaption>test.wav before zooming in.</figcaption></figure>
+<figure><a class="figure-crop" href="images/02.png" title="View full image" style="aspect-ratio: 1467 / 510; --image-width: 100.000000%; --image-left: 0.000000%; --image-top: 0.000000%"><img width="1467" height="1072" src="images/02.png" alt="Individual samples, with 48 samples highlighted over one millisecond." loading="lazy"></a><figcaption>After zooming in on test.wav, you can see that it is really just individual sample points.</figcaption></figure>
+<p>If you count carefully, you will find that one millisecond of audio in our <code>test.wav</code> file—the part inside the red box—is actually made up of 48 dots. In other words, one second of audio is made up of 48,000 dots. In technical terms, we say that this audio has a <strong>sample rate of 48,000 (48K)</strong>.</p>
+<p>Common sample rates include 48K, 44K, 16K, and 8K. Sample rate is to your ears what the pixels on a TV are to your eyes. In theory, the higher the sample rate, the closer the audio is to how that sound actually exists in the physical world. Try it for yourself: below 44K, the sound becomes noticeably “blurry.”</p>
+<h3>Channels</h3>
+<p>Our <code>test.wav</code> has two channels. In fact, these two channels will be sent to our left and right ears—what we call the left and right audio channels.</p>
+<figure class="medium"><a class="figure-crop" href="images/03.png" title="View full image" style="aspect-ratio: 1506 / 816; --image-width: 127.888446%; --image-left: -27.888446%; --image-top: 0.000000%"><img width="1926" height="816" src="images/03.png" alt="Audacity shows the two audio channels labeled Channel 1 and Channel 2." loading="lazy"></a><figcaption>Two channels.</figcaption></figure>
+<h3>Bit depth</h3>
+<p>In the previous section, we talked about sample points. The amount of space needed to store one sample point is called <strong>bit depth</strong>. If we check <code>test.wav</code>, its size is 768,170 bytes. The audio is about 4 seconds long, has 2 channels, and has a sample rate of 48,000. Let’s do the math:</p>
+<pre><code>768170 / 4 / 2 / 48000 = 2</code></pre>
+<p>That means each sample point uses 2 bytes. One byte is 8 bits, so one sample point in this audio takes up 16 bits—what we usually call 16bit. Common bit depths include 16bit, 24bit, and 32bit.</p>
+<p>(Just in case anyone really is unfamiliar with bits, let me go into a little more detail. Think of something from everyday life: when we talk about a monthly mobile data allowance of 1G, 1G = 1024 megabytes = 1024 × 1024 × 1024 bytes = 1024 × 1024 × 1024 × 8 bits. It is a bit like the relationship between tens of thousands, thousands, and hundreds when counting money.)</p>
+<h3>PCM (Pulse Code Modulation)</h3>
+<p>PCM is simply those individual sample points in the pictures above. It is the form audio takes in the computer world. Engineers usually say things like:</p>
+<ul>
+<li>“What format should I use to open your <code>.pcm</code> file?” // Asking what sample rate, channel count, and bit depth to use when opening the file.</li>
+<li>“I’ve sent you the <code>.pcm</code> file decoded from the MP3.” // Audio in any format has to be decoded into PCM before it can be played.</li>
+<li>“Can you capture the PCM stream down in the lower layers of Android for me?” // By the time music from an app on your phone reaches the lower layers of Android, Android’s built-in decoding library has already decoded it into PCM. When engineers working on those lower layers investigate a problem, they generally ask for the PCM audio data passing through that part of the system.</li>
+</ul>
+<h3>WAV</h3>
+<p>We have mentioned <code>test.wav</code> several times. So what is the relationship between WAV and PCM?</p>
+<p>We said earlier that PCM is just a sequence of sample points. But to listen to that PCM, we still need to know what sample rate, channel count, and bit depth to use when opening those points.</p>
+<p>Let’s try an experiment. Import <code>test.wav</code> into Audacity as 16K, 2ch, 16bit, and see what it sounds like.</p>
+<p>Here are the steps: <strong>Audacity → File → Import → Raw Data → select test.wav → choose the format shown below.</strong></p>
+<p>Have a listen. The audio is now 12 seconds long, and the sound is much deeper. This tells us that we have not opened <code>test.wav</code> at the correct sample rate.</p>
+<p>Let’s try opening it again, this time as 48K, 2ch, 16bit.</p>
+<div class="figure-pair" aria-label="Raw audio import comparison"><figure class="compact"><a class="figure-image" href="images/04.png" title="View full image"><img width="1220" height="1289" src="images/04.png" alt="Import Raw Data settings for test.wav: signed 16-bit PCM, stereo, 16000 Hz." loading="lazy"></a><figcaption>Importing at 16 kHz, 2 channels, 16 bits.</figcaption></figure><figure class="compact"><a class="figure-image" href="images/05.png" title="View full image"><img width="1220" height="1289" src="images/05.png" alt="Import Raw Data settings for test.wav: signed 16-bit PCM, stereo, 48000 Hz." loading="lazy"></a><figcaption>Importing at 48 kHz, 2 channels, 16 bits.</figcaption></figure></div>
+<p>Now it sounds normal—exactly the same as when we use <strong>Audacity → File → Open → test.wav</strong>.</p>
+<p>Why does it sound normal when we use “File → Open”? How does Audacity know that it should open this audio file as 48K, 2ch, 16bit?</p>
+<p>The reason is that we have stored these three pieces of information—sample rate, channel count, and bit depth—at the beginning of <code>test.wav</code>. When Audacity opens it, it automatically reads that information and opens the file in the correct format.</p>
+<pre><code>WAV = format header (sample rate, channels, bit depth) + PCM</code></pre>
+<p>Have a play with it: import <code>test.wav</code> into Audacity at different sample rates, with different channel counts and bit depths, and listen. See if you can spot any patterns!</p>
+<h3>MP3</h3>
+<p>MP3 is really just a compressed version of WAV. You can see that <code>test.mp3</code> in the attachments is much smaller than <code>test.wav</code>.</p>
+<p>Try <strong>Audacity → File → Import → Raw Data → select test.mp3</strong>.</p>
+<p>You will hear nothing but noise.</p>
+<p>But if you use <strong>Audacity → File → Open → test.mp3</strong>, it sounds just like <code>test.wav</code>.</p>
+<p>It is like the text-file example in the attachments: you can double-click <code>test.txt</code> and read the text straight away, but with <code>test.zip</code>, you need to unzip it before you can open <code>test.txt</code> and read what is inside.</p>
+<p><strong>Audacity → File → Open → test.mp3</strong> automatically does something similar to unzipping. We call this operation of turning <code>.mp3</code> into <code>.pcm</code> <strong>decoding</strong>.</p>
+<h2 id="channels-and-slots">Channels and slots</h2>
+<p>A stereo MP3 has two channels: left and right. After decoding, it becomes two-channel PCM that is passed down to the lower layers of Android.</p>
+<p>Similarly, 5.1-channel Dolby audio decodes into a six-channel PCM file.</p>
+<p>(Dolby 5.1 = front left, front right, center, surround left, surround right + the low-frequency effects channel.)</p>
+<h3>Slots</h3>
+<p>You will generally find the word <strong>slot</strong> in chip manuals. It is less common outside the industry.</p>
+<p>You can also think of a slot as a channel. For example, we might say:</p>
+<p>“This SoC sends two channels of audio to the amplifier chip. The first channel goes in slot 0, and the second goes in slot 1.”</p>
+<p>Next, we will introduce digital audio interfaces, which will make this idea of a slot clearer.</p>
+<h2 id="interfaces">Digital audio interfaces (DAI)</h2>
+<p>The digital audio interface we are talking about in this article sits at the position shown below (adapted from <a href="https://dspguide.com/ch3/4.htm">Figure 3-7</a> in <cite>Digital Signal Processing: A Practical Guide for Engineers and Scientists</cite>).</p>
+<figure><a class="figure-image" href="images/06.png" title="View full image"><img width="2170" height="725" src="images/06.png" alt="Signal chain: analog anti-aliasing filter, ADC, digital processing, DAC, and analog reconstruction filter; digital audio interfaces are marked beside digital processing." loading="lazy"></a><figcaption>The position of the digital audio interface in the signal chain.</figcaption></figure>
+<p>In a modern digital audio product, the chip at the “digital processing” position in the picture might be a SoC or a DSP.</p>
+<p>(A SoC—System on Chip—is, simply put, the CPU in your phone. On a circuit board, it is a little square.</p>
+<p>A DSP—Digital Signal Processor—is a dedicated computing unit specifically for processing audio. On a circuit board, it is also a little square.</p>
+<p>DSP can stand for either Digital Signal Processor or Digital Signal Processing. The first is a chip; the second is a university course. Don’t mix them up!)</p>
+<p>At the DAC position, you will generally find a power amplifier chip. The amplifier chip converts digital audio into an analog signal to drive the speaker.</p>
+<p>Put simply, a digital audio interface is just a few copper wires—three or four—between the SoC (or DSP) and the amplifier chip (or DAC). I2S and TDM are commonly used today.</p>
+<p>So how should we understand the word “digital” in “digital audio interface”? Simply put, if you measure it with an oscilloscope, it looks like the picture below. It carries 0s and 1s, rather than an analog signal.</p>
+<figure class="figure-auxiliary"><a class="figure-image" href="images/07.png" title="View full image"><img width="1655" height="950" src="images/07.png" alt="An oscilloscope captures multiple digital signals as changing voltage levels." loading="lazy"></a><figcaption>Image from the web; I will remove it if it infringes anyone’s rights.</figcaption></figure>
+<p>Since it is a digital signal, we can capture the data on the digital audio interface with a logic analyzer and analyze it. In the next two sections, I will show you I2S and TDM data I captured at work and explain how to turn it into audio that we can play on a computer.</p>
+<p>(A logic analyzer is like an oscilloscope that, after capturing the waveform, also turns it into 0s and 1s for you. For example, 0 V becomes 0, and 1.8 V becomes 1.)</p>
+<h2 id="i2s">I2S</h2>
+<p>First, download this software so that you can open the logic analyzer data I captured:</p>
+<p><a href="https://www.dreamsourcelab.com/download/">Downloads — DreamSourceLab (logic analyzers / oscilloscopes)</a></p>
+<p>An I2S interface consists of four wires. I2S has a master and a slave: whichever side is the I2S master is responsible for sending the clocks. In the picture below, the SoC is the I2S master, sending the SCK and WS signals.</p>
+<p>SD out is the PCM data the SoC sends to the AMP; SD in is the PCM data the AMP sends to the SoC. Generally speaking, though, the AMP does not send PCM data back to the SoC. What the picture is showing is that I2S supports sending and receiving at the same time.</p>
+<figure class="figure-diagram"><a class="figure-image" href="images/08.png" title="View full image"><img width="842" height="658" src="images/08.png" alt="SoC drives SCK and WS to an amplifier; separate SD out and SD in lines carry data in opposite directions." loading="lazy"></a><figcaption>The SoC acts as the I2S master.</figcaption></figure>
+<p>Now we come to the main part of this post. Double-click <code>I2S/raw.dsl</code> in the attachments and select I2S as the protocol decoder. The protocol settings are shown below. This is the I2S format I selected while debugging the chip. (When debugging I2S, the SoC and AMP must have the same I2S configuration.)</p>
+<figure class="compact"><a class="figure-image" href="images/09.png" title="View full image"><img width="1058" height="1486" src="images/09.png" alt="I2S decoder options: SCK 0, WS 1, SD 2, left-low, rising-edge, one-bit delay, MSB first, 24-bit word size." loading="lazy"></a><figcaption>The I2S format I selected while debugging the chip.</figcaption></figure>
+<p>Click OK, then wait about five minutes for decoding progress to reach 100%.</p>
+<figure><a class="figure-crop" href="images/10.png" title="View full image" style="aspect-ratio: 2171 / 420; --image-width: 100.000000%; --image-left: 0.000000%; --image-top: -4.761905%"><img width="2171" height="724" src="images/10.png" alt="DSView with the I2S decoder, configuration controls, decoding progress, and decoded results identified in English." loading="lazy"></a><figcaption>Select I2S, configure it, and wait for decoding to reach 100%.</figcaption></figure>
+<p>Let’s zoom in and look at a typical I2S timing diagram.</p>
+<p>When WS is low, the left channel is being transmitted; when it is high, the right channel is being transmitted. I2S can only transmit two channels. The left channel goes in slot 0, and the right channel goes in slot 1.</p>
+<figure><a class="figure-crop" href="images/11.png" title="View full image" style="aspect-ratio: 2170 / 355; --image-width: 100.000000%; --image-left: 0.000000%; --image-top: -51.830986%"><img width="2170" height="725" src="images/11.png" alt="I2S timing: SCK, WS, and SD out, with left and right channel intervals labeled." loading="lazy"></a><figcaption>The left channel goes in slot 0; the right channel goes in slot 1.</figcaption></figure>
+<p>The frequency of WS is the sample rate of the PCM data being transmitted. In modern digital audio systems, this is generally 48K.</p>
+<figure><a class="figure-crop" href="images/12.png" title="View full image" style="aspect-ratio: 2172 / 400; --image-width: 100.000000%; --image-left: 0.000000%; --image-top: -40.250000%"><img width="2172" height="724" src="images/12.png" alt="Word-select measurement: period approximately 20.84 microseconds, frequency 47.98 kHz." loading="lazy"></a><figcaption>The WS frequency is the sample rate of the PCM data.</figcaption></figure>
+<p>The frequency of SCK is about 2.33 MHz. Where does that 2.33 MHz come from?</p>
+<p>It is actually:</p>
+<pre><code>48000 × 24 (bits) × 2 (channels) = 2330000</code></pre>
+<p>Here, 48000 is the frequency of WS—in other words, the sample rate of the PCM data being transmitted.</p>
+<p>24bit means that each slot takes up 24 rising edges—in other words, the bit depth of the PCM data being transmitted.</p>
+<p>The 2 channels are the left and right audio channels.</p>
+<figure><a class="figure-crop" href="images/13.png" title="View full image" style="aspect-ratio: 2170 / 316; --image-width: 100.000000%; --image-left: 0.000000%; --image-top: -64.556962%"><img width="2170" height="725" src="images/13.png" alt="The original bit-clock cursor measurement reads about 2.33 MHz." loading="lazy"></a><figcaption>The SCK frequency is approximately 2.33 MHz.</figcaption></figure>
+<figure><a class="figure-image" href="images/14.png" title="View full image"><img width="847" height="166" src="images/14.png" alt="A red rectangle highlights one 24-bit I2S slot." loading="lazy"></a><figcaption>Each slot takes up 24 rising edges.</figcaption></figure>
+<p>Next, let’s save the data captured by the logic analyzer (<code>I2S/txt2pcm/in.txt</code>) and turn it into audio.</p>
+<div class="figure-pair export-pair" aria-label="Exporting decoded samples"><figure class="figure-export-panel"><a class="figure-image" href="images/15.png" title="View full image"><img width="1090" height="1443" src="images/15.png" alt="The DSView save icon for exporting the decoded protocol list is highlighted." loading="lazy"></a><figcaption>Save the captured data.</figcaption></figure><figure class="figure-export-text"><a class="figure-image" href="images/16.png" title="View full image"><img width="420" height="387" src="images/16.png" alt="Exported text contains alternating right and left channel hexadecimal sample values." loading="lazy"></a><figcaption>Read these values and write them into a PCM file.</figcaption></figure></div>
+<p>All we need to do is read these values and write them into a PCM file. Run the example below from <code>I2S/txt2pcm/</code>, where <code>in.txt</code> is located.</p>
+<p>Here is a simple example for you. (I wrote it pretty casually—please bear with me!)</p>
+<pre><code>#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;string&gt;
+#include &lt;string.h&gt;
+#include &lt;sstream&gt;
+
+using namespace std;
+#define HEAD &quot;Left channel: &quot;
+
+int main() {
+
+    string line;
+    ifstream inFile(&quot;in.txt&quot;);
+    const char *p = NULL;
+    stringstream ss;
+    unsigned int data;
+    string buffer;
+    unsigned int error = 0;
+
+    truncate(&quot;output.pcm&quot;, 0);
+
+    int pcm_fd = open(&quot;output.pcm&quot;, O_WRONLY | O_CREAT, 0666);
+
+    if ( inFile.is_open() &amp;&amp; pcm_fd &gt; 0 ) {
+
+        while (getline(inFile, line)) {
+            if ( p = strstr(line.c_str(), HEAD) ) {
+                sscanf(p + strlen(HEAD), &quot;%08x&quot;, &amp;data);
+                printf(&quot;%08x\n&quot;, data);
+                write(pcm_fd, (void*)&amp;data, 3); //3bytes 24bit
+            }
+        }
+        close(pcm_fd);
+        inFile.close();
+    }
+    else {
+        cout &lt;&lt; &quot;Unable to open file&quot; &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre>
+<p>Import the resulting <code>I2S/txt2pcm/output.pcm</code> into Audacity, and you get one minute of audio.</p>
+<figure class="compact"><a class="figure-image" href="images/17.png" title="View full image"><img width="1220" height="1289" src="images/17.png" alt="Import settings: signed 24-bit PCM, one mono channel, 48000 Hz." loading="lazy"></a><figcaption>Import output.pcm into Audacity.</figcaption></figure>
+<figure><a class="figure-crop" href="images/18.png" title="View full image" style="aspect-ratio: 1993 / 560; --image-width: 108.881084%; --image-left: -8.881084%; --image-top: -14.285714%"><img width="2170" height="725" src="images/18.png" alt="The reconstructed mono waveform spans about one minute in Audacity." loading="lazy"></a><figcaption>One minute of audio.</figcaption></figure>
+<h2 id="tdm">TDM</h2>
+<p>TDM is more flexible than I2S and can transmit multiple channels. Common options include TDM8 (8 channels) and TDM16 (16 channels).</p>
+<p>Strictly speaking, I2S is actually a subset of TDM. I2S is TDM2.</p>
+<p>Let’s look at a common way of wiring up TDM.</p>
+<p>The picture below is a common TDM16 block diagram. This means TDM16 supports 32 downstream channels and 32 upstream channels at the same time. There is so much more you can do with it than with I2S!</p>
+<figure class="figure-diagram"><a class="figure-image" href="images/19.png" title="View full image"><img width="842" height="820" src="images/19.png" alt="TDM16 connection with two output data lines and two input data lines, each carrying 16 slots." loading="lazy"></a><figcaption>A common TDM16 connection.</figcaption></figure>
+<p>Now let’s look at a timing diagram I captured in my own project.</p>
+<p>You can see that the frequency of SYNC is still 48K—the sample rate of the PCM being transmitted.</p>
+<p>There are 16 slots in total. When I captured this data, only slot 0 and slot 1 had data in them.</p>
+<figure><a class="figure-crop" href="images/20.png" title="View full image" style="aspect-ratio: 2172 / 328; --image-width: 100.000000%; --image-left: 0.000000%; --image-top: -60.365854%"><img width="2172" height="724" src="images/20.png" alt="TDM capture shows 16 decoded slots, with the first two active slots highlighted; frame-sync frequency is about 48.01 kHz." loading="lazy"></a><figcaption>Sixteen slots, with data in slot 0 and slot 1.</figcaption></figure>
+<figure class="compact"><a class="figure-image" href="images/21.png" title="View full image"><img width="998" height="1576" src="images/21.png" alt="TDM decoder: 16 channels, 32-bit channel size, falling-edge sampling, rising-edge frame sync, zero bit shift." loading="lazy"></a><figcaption>The TDM configuration.</figcaption></figure>
+<p>So what is the frequency of SCK now? Let’s work it out:</p>
+<pre><code>48000 × 16 (channels) × 32 (bits) = 24.6 MHz</code></pre>
+<figure><a class="figure-crop" href="images/22.png" title="View full image" style="aspect-ratio: 2170 / 481; --image-width: 100.000000%; --image-left: 0.000000%; --image-top: -25.363825%"><img width="2170" height="725" src="images/22.png" alt="The original single-period TDM bit-clock measurement reads 25.00 MHz." loading="lazy"></a><figcaption>The SCK frequency.</figcaption></figure>
+<p>In the same way, import <code>TDM/output.pcm</code> into Audacity as 48K, 32bit, 1ch, and you can hear the music.</p>
+<h2 id="closing">Wrapping up</h2>
+<p>In this post, I have tried to explain PCM and the embedded digital audio interfaces I2S and TDM in the most straightforward language possible. I hope it helps those of you who are just getting into digital audio.</p>
+<p>The number of digital audio interfaces on a SoC platform, and the number of channels they support, basically determine what kinds of products that platform can support—for example, how many speakers it can handle. If you are interested, let me know in the comments. I will write another post about channel allocation strategies in digital audio products and the approaches commonly used at the forefront of the industry today.</p>
+<p>All the audio used in this article is by Khalil Fong.</p>
+<p>In memory of Khalil Fong.</p>
+<p><em>Rest in Peace, Mr. Fong.</em></p>
+<h2 id="downloads">Attachments</h2>
+<p><a href="https://github.com/CoreyChen-TYM/CoreyChen-TYM.github.io/releases/download/i2s-tdm-lab-v1/i2s-tdm-lab-v2.7z">Download the full lab</a> (218 MiB): captures, decoded text exports, and audio files. Extract the <code>.7z</code> file with 7-Zip. All paths in this article are relative to the extracted <code>i2s-tdm-lab/</code> folder.</p>
+<p><a href="downloads/i2s-tdm-lab-kit.zip" download>Download the small lab kit</a>: audio examples, reconstructed PCM files, and conversion tools. The original <code>.dsl</code> captures and <code>in.txt</code> exports are included in the full lab only.</p>
+
+      </article>
+    </main>
+    <script src="../../image-viewer.js" defer></script>
+  </body>
+</html>
