@@ -107,7 +107,8 @@
     "note": "2022 model official-photo gallery via Pacific Auto",
     "file": "images/vehicles/aito-m7.jpg",
     "width": 1024,
-    "height": 768
+    "height": 768,
+    "edits": "Bottom-right media watermark or text removed with built-in image editing; original dimensions retained."
   },
   {
     "id": "aion-y-plus",
@@ -118,7 +119,8 @@
     "note": "GAC official Y PLUS imagery",
     "file": "images/vehicles/aion-y-plus.jpg",
     "width": 1920,
-    "height": 1080
+    "height": 1080,
+    "edits": "Bottom-right media watermark or text removed with built-in image editing; original dimensions retained."
   },
   {
     "id": "neta-gt",
@@ -173,7 +175,8 @@
     "note": "2024 model official-photo gallery via Pacific Auto",
     "file": "images/vehicles/xiaomi-su7.jpg",
     "width": 1024,
-    "height": 768
+    "height": 768,
+    "edits": "Bottom-right media watermark or text removed with built-in image editing; original dimensions retained."
   },
   {
     "id": "trumpchi-s7",
