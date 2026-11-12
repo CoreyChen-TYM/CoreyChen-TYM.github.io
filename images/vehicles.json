@@ -1,0 +1,222 @@
+[
+  {
+    "id": "tiggo-7",
+    "name": "Chery Tiggo 7",
+    "year": 2019,
+    "image": "https://auto.vercity.ru/gallery/img/automobiles/Chery/2020%20Chery%20Tiggo%207/dl/1577724253.jpg",
+    "source": "https://auto.vercity.ru/gallery/automobiles/chery/2020/chery_tiggo_7/",
+    "note": "2020 model press imagery via VERcity",
+    "file": "images/vehicles/tiggo-7.jpg",
+    "width": 2724,
+    "height": 1775
+  },
+  {
+    "id": "tiggo-8",
+    "name": "Chery Tiggo 8",
+    "year": 2019,
+    "image": "https://www.suvdrive.com/sites/default/files/public/In%20Desert/offroad%20Chery%20Tiggo%208%20Luxury%202020.jpg",
+    "source": "https://www.suvdrive.com/chery/tiggo-8/chery-tiggo-8-luxury-2020",
+    "note": "2020 model promotional imagery via SUV Drive",
+    "file": "images/vehicles/tiggo-8.jpg",
+    "width": 1022,
+    "height": 639
+  },
+  {
+    "id": "haval-h6",
+    "name": "Haval H6",
+    "year": 2019,
+    "image": "https://res.gwm.com.cn/2020/09/02/1769362_114_Urban_25_800_533.jpg",
+    "source": "https://www.gwm-global.com/news/1155598.html",
+    "note": "GWM official third-generation H6 launch imagery; representative of the continuing project",
+    "file": "images/vehicles/haval-h6.jpg",
+    "width": 800,
+    "height": 533
+  },
+  {
+    "id": "li-one",
+    "name": "Li ONE",
+    "year": 2019,
+    "image": "https://p3.itc.cn/images01/20211130/175d9e7360c642d8809ae2399d343d79.jpeg",
+    "source": "https://www.sohu.com/a/504585912_100097706",
+    "note": "2021 model promotional imagery via Sohu",
+    "file": "images/vehicles/li-one.jpg",
+    "width": 1080,
+    "height": 720
+  },
+  {
+    "id": "enovate-me7",
+    "name": "Enovate ME7",
+    "year": 2020,
+    "image": "https://imgcdn.youmenr.com/a/2018/11/14/1542182774187063038.jpg-a",
+    "source": "https://youmenr.com/news/1048.html",
+    "note": "ME7 debut promotional rendering via Youmenr",
+    "file": "images/vehicles/enovate-me7.jpg",
+    "width": 1360,
+    "height": 764
+  },
+  {
+    "id": "ford-equator-sport",
+    "name": "Ford Equator Sport",
+    "year": 2020,
+    "image": "https://p3.itc.cn/images01/20220329/d35f4268a19747aa876774e79f18fdde.jpeg",
+    "source": "https://www.sohu.com/a/533536485_99991750",
+    "note": "2022 launch promotional imagery via Sohu; Chinese model name Lingrui",
+    "file": "images/vehicles/ford-equator-sport.jpg",
+    "width": 1920,
+    "height": 1280
+  },
+  {
+    "id": "mg-ezs",
+    "name": "MG EZS",
+    "year": 2020,
+    "image": "https://www.saicmotor.com/chinese/images/xwzx/xwk/2020/2020/4/13/766D8CD5D18347058986061B02C407F5.jpg",
+    "source": "https://www.saicmotor.com/m/xwzx/xwk/2020/53139.shtml",
+    "note": "SAIC official first-generation MG EZS / MG ZS EV promotional image; identified from user-provided reference",
+    "file": "images/vehicles/mg-ezs.jpg",
+    "width": 800,
+    "height": 450
+  },
+  {
+    "id": "aion-y",
+    "name": "GAC AION Y",
+    "year": 2020,
+    "image": "https://www.xnyauto.com/uploadfile/2021/1027/20211027105217351.jpg",
+    "source": "https://www.chinavehicle.org/product/69/87.html",
+    "note": "First-generation 2021 model studio imagery via China Vehicle",
+    "file": "images/vehicles/aion-y.jpg",
+    "width": 800,
+    "height": 533
+  },
+  {
+    "id": "aito-m5",
+    "name": "AITO M5",
+    "year": 2021,
+    "image": "https://auto.vercity.ru/gallery/img/automobiles/AITO/m5/900x/1679057288.jpg",
+    "source": "https://auto.vercity.ru/gallery/automobiles/aito/2022/m5/image_1578190",
+    "note": "2022 model press imagery via VERcity",
+    "file": "images/vehicles/aito-m5.jpg",
+    "width": 900,
+    "height": 662
+  },
+  {
+    "id": "aito-m7",
+    "name": "AITO M7",
+    "year": 2021,
+    "image": "https://img.pcauto.com.cn/images/upload/upc/tx/auto5/2207/06/c47/322673213_1657093708835_1024.jpg",
+    "source": "https://price.pcauto.com.cn/cars/image/7286719-1-sg28721-o1-1.html",
+    "note": "2022 model official-photo gallery via Pacific Auto",
+    "file": "images/vehicles/aito-m7.jpg",
+    "width": 1024,
+    "height": 768
+  },
+  {
+    "id": "aion-y-plus",
+    "name": "GAC AION Y PLUS",
+    "year": 2022,
+    "image": "https://sg-www-resouce-cdn.gacgroup.com/static/HK/tenant/cms/common/202507/1753242999086-AION-Y.jpeg",
+    "source": "https://www.gacgroup.com/en-hk/news/article/driving-from-hong-kong-to-mainland-china-24",
+    "note": "GAC official Y PLUS imagery",
+    "file": "images/vehicles/aion-y-plus.jpg",
+    "width": 1920,
+    "height": 1080
+  },
+  {
+    "id": "neta-gt",
+    "name": "NETA GT",
+    "year": 2022,
+    "image": "https://new-official-website-prod.oss-cn-hangzhou.aliyuncs.com/cmsstatic/static/images/car-gt-bot.webp",
+    "source": "https://www.hozonauto.com/gt.html",
+    "note": "NETA official GT model imagery",
+    "file": "images/vehicles/neta-gt.webp",
+    "width": 1460,
+    "height": 764
+  },
+  {
+    "id": "trumpchi-gs8",
+    "name": "GAC Trumpchi GS8",
+    "year": 2022,
+    "image": "https://p1.itc.cn/images01/20230707/659975dc6da14b5ea1973edbe2d57687.jpeg",
+    "source": "https://www.sohu.com/a/695365080_394512",
+    "note": "2024 model promotional imagery via Sohu",
+    "file": "images/vehicles/trumpchi-gs8.jpg",
+    "width": 2400,
+    "height": 1600
+  },
+  {
+    "id": "byd-shark",
+    "name": "BYD SHARK",
+    "year": 2022,
+    "image": "https://www.byd.com/material/byd-site/us/newlist/byd-launches-its-first-pickup-truck-byd-shark-in-mexico/BYD-Shark.jpg",
+    "source": "https://www.byd.com/us/news-list/BYD-Launches-its-First-Pickup-Truck-BYD-SHARK-in-Mexico.html",
+    "note": "BYD official 2024 global launch imagery",
+    "file": "images/vehicles/byd-shark.jpg",
+    "width": 5000,
+    "height": 2812
+  },
+  {
+    "id": "hyper-ht",
+    "name": "GAC Hyper HT",
+    "year": 2023,
+    "image": "https://cdn.trx.tradedealer.ru/368/media/download/hyptec-ht/Yv4i5E__1920x1080-hyptech-1.jpeg",
+    "source": "https://gac.ru/",
+    "note": "Official GAC Russia Hyptec HT imagery",
+    "file": "images/vehicles/hyper-ht.jpg",
+    "width": 3840,
+    "height": 2160
+  },
+  {
+    "id": "xiaomi-su7",
+    "name": "Xiaomi SU7",
+    "year": 2023,
+    "image": "https://img.pcauto.com.cn/images/upload/upc/tx/auto5/2402/03/c0/405301927_1706892527962_1024.jpg",
+    "source": "https://price.pcauto.com.cn/cars/image/7926680-1-m118953-o1-c475214.html",
+    "note": "2024 model official-photo gallery via Pacific Auto",
+    "file": "images/vehicles/xiaomi-su7.jpg",
+    "width": 1024,
+    "height": 768
+  },
+  {
+    "id": "trumpchi-s7",
+    "name": "GAC Trumpchi S7",
+    "year": 2023,
+    "image": "https://br-www-resouce-cdn.gacgroup.com/static/Global/tenant/cms/common/202509/1757326053521-GAC-GS7-body.png",
+    "source": "https://www.gacgroup.com/en/news/article/iaa-mobility-2025-177",
+    "note": "GAC official S7 promotional rendering",
+    "file": "images/vehicles/trumpchi-s7.png",
+    "width": 1268,
+    "height": 628
+  },
+  {
+    "id": "hyptec-hl",
+    "name": "GAC Hyptec HL",
+    "year": 2024,
+    "image": "https://br-www-resouce-cdn.gacgroup.com/static/Global/tenant/cms/common/202509/1757326168095-HYPTECHL.jpeg",
+    "source": "https://www.gacgroup.com/en/news/article/iaa-mobility-2025-177",
+    "note": "GAC official HL promotional imagery",
+    "file": "images/vehicles/hyptec-hl.jpg",
+    "width": 1267,
+    "height": 634
+  },
+  {
+    "id": "lynk-co-900",
+    "name": "Lynk & Co 900",
+    "year": 2024,
+    "image": "https://car3.autoimg.cn/cardfs/product/g31/M00/30/42/1400x1050_autohomecar__ChxoHmd4EMSAcSmgAAv36VKCyO8715.jpg",
+    "source": "https://www.autohome.com.cn/cars/imgs-8002-72146-53-x/10898227.html",
+    "note": "2025 model official-photo gallery via Autohome",
+    "file": "images/vehicles/lynk-co-900.jpg",
+    "width": 1400,
+    "height": 1050
+  },
+  {
+    "id": "slate-truck",
+    "name": "Slate Truck",
+    "year": 2026,
+    "image": "https://images.ctfassets.net/20dhmw20vttc/3ExGHgsfJNJ8d4yh0w5ocN/d2c0ed3e1738d6eed1d24e97d39a899d/Studio_60_Front_Three_Quarter_Truck__Driver_Side-HK-Fix.jpg?w=1600",
+    "source": "https://www.slate.auto/",
+    "note": "Official Slate Auto studio image",
+    "file": "images/vehicles/slate-truck.jpg",
+    "width": 1350,
+    "height": 900
+  }
+]

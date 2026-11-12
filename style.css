@@ -1,0 +1,228 @@
+@font-face {
+  font-family: "Roboto";
+  src: url("fonts/roboto-variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #292929;
+  background: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.site-title {
+  color: inherit;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-title:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.email {
+  color: #666;
+  font-size: 14px;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.email:hover {
+  color: #292929;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+main {
+  padding: 40px 0 64px;
+}
+
+h1 {
+  margin: 0 0 20px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.entries {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+time {
+  font-variant-numeric: tabular-nums;
+}
+
+.entries > li {
+  display: grid;
+  grid-template-columns: 7ch minmax(0, 1fr);
+  column-gap: 24px;
+  align-items: baseline;
+}
+
+.entries > li + li {
+  margin-top: 12px;
+}
+
+.entries > .journal-project {
+  margin-top: 22px;
+}
+
+.entries > li:first-child {
+  margin-top: 0;
+}
+
+.entries time {
+  color: #777;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.entries > li > span {
+  min-width: 0;
+}
+
+.journal-project a {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.journal-project a:hover,
+.journal-project a:focus-visible {
+  text-decoration: underline;
+}
+
+.image-preview {
+  position: fixed;
+  z-index: 10;
+  width: min(360px, calc(100vw - 32px));
+  padding: 6px;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 8px 28px #0002;
+  pointer-events: none;
+}
+
+.image-preview img {
+  display: block;
+  width: 100%;
+  max-height: min(260px, calc(100vh - 48px));
+  object-fit: contain;
+}
+
+.company-icon {
+  width: 100px;
+  height: 28px;
+  object-fit: contain;
+  object-position: left center;
+  vertical-align: middle;
+}
+
+.cat-photo {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 0;
+  border-radius: 50%;
+}
+
+.cat-photo img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 53% 25%;
+}
+
+.tymphany-logo {
+  width: 92px;
+  height: 24px;
+  padding: 6px 8px;
+  background: #092c49;
+  border-radius: 3px;
+}
+
+.tcl-logo {
+  width: 26px;
+  height: 26px;
+}
+
+a {
+  color: #2a64a0;
+  text-underline-offset: 4px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.project-intro {
+  margin: 0 0 28px;
+  color: #666;
+}
+
+.vehicle {
+  margin: 0;
+}
+
+.vehicle img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vehicle h2 {
+  margin: 18px 0 4px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.vehicle p {
+  margin: 0 0 12px;
+}
+
+.vehicle small {
+  color: #777;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 28px 20px;
+  }
+
+  .entries > li {
+    column-gap: 16px;
+  }
+
+}
