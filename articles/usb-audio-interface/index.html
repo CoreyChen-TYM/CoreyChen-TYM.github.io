@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A spare-time project: an XMOS XU316 board with 32 outputs and 16 inputs over USB, from schematic and PCB to firmware and a desktop app.">
+<title>I Made a 32-Channel USB Audio Interface in My Spare Time — Corey Chen</title>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../i2s-tdm/article.css">
+<link rel="stylesheet" href="article.css">
+<link rel="stylesheet" href="../../image-viewer.css">
+<script src="../../image-viewer.js" defer></script>
+</head>
+<body class="article-page">
+<header><a class="site-title" href="../../index.html">Corey Chen</a><a class="email" href="mailto:corey.chen@tymphany.com">corey.chen@tymphany.com</a></header>
+<main><a class="back-link" href="../../index.html">← Journal</a><article>
+<h1>I Made a 32-Channel USB Audio Interface in My Spare Time</h1>
+
+<figure class="board-photo"><a class="figure-image" href="images/board-assembled.jpg" title="View full image"><img src="images/optimized/board-assembled.webp" width="1350" height="1800" alt="The assembled board: a green four-layer PCB with an XMOS XU316 chip in the middle, a USB-C connector, a reset button and three 2×10 pin headers." loading="lazy" decoding="async"></a><figcaption>The finished board, XMOS XU316 in the middle.</figcaption></figure>
+
+<p>This little green board is something I designed and built in my spare time. Plug it into a PC over USB-C and it shows up as a sound card with <strong>32 outputs and 16 inputs</strong>, all running at the same time.</p>
+<p>I drew the schematic, laid out the PCB, brought the board up, adapted the firmware, and wrote the desktop app that drives it. Hardware and software, start to finish. 😎</p>
+
+<h2 id="why">Why build one?</h2>
+<p>In automotive audio, a lot of testing means pushing dozens of audio channels between a PC and the system under test: amplifiers, DSPs, microphone arrays. Professional multichannel test gear does exist, but there isn’t much choice, and it isn’t cheap.</p>
+<p>I also simply wanted to know: could I build one myself, from an empty schematic to a working sound card?</p>
+<p>For the brain I picked the <a href="https://www.xmos.com/">XMOS</a> XU316. It’s a chip made for exactly this kind of job: real-time, many-channel audio, with a mature USB Audio reference design behind it.</p>
+
+<h2 id="hardware">The hardware half</h2>
+<p>With XMOS’s official multichannel audio reference board as a guide, I kept only the essentials: the XU316, a crystal, flash memory for the firmware, three power rails brought up in sequence, and USB-C for both power and data. It all sits on a four-layer board with a solid ground plane underneath.</p>
+<p>Everything else is broken out to three identical 2×10 pin headers: the I2S/TDM audio bus, SPI, I2C, a UART and some spare GPIO. There’s also a small connector for XMOS’s debug adapter, used to load and debug firmware.</p>
+<div class="photo-pair">
+<figure><a class="figure-image" href="images/board-bare.jpg" title="View full image"><img src="images/optimized/board-bare.webp" width="1350" height="1800" alt="The bare PCB straight from the factory, still in its panel frame, with empty pads for the chip and headers." loading="lazy" decoding="async"></a><figcaption>Bare PCB, fresh from the factory.</figcaption></figure>
+<figure><a class="figure-image" href="images/board-assembled.jpg" title="View full image"><img src="images/optimized/board-assembled.webp" width="1350" height="1800" alt="The same board after assembly, with the XU316, power chips, crystal, flash and pin headers fitted." loading="lazy" decoding="async"></a><figcaption>After assembly.</figcaption></figure>
+</div>
+<p>Then came bring-up, the nervous part of every hardware project. Measure each power rail before trusting it. Connect the debug adapter. Load the firmware. And then the moment that makes it all worth it: the PC recognises a brand-new USB audio device, with 32 outputs and 16 inputs.</p>
+
+<h2 id="software">The software half</h2>
+<h3>Firmware</h3>
+<p>On the chip, I took XMOS’s official USB Audio SDK and adapted it into a build for my own board. It runs as a standard USB Audio Class 2.0 device, so no special driver tricks are needed on the PC side. The audio goes out over two TDM lines of 16 channels each (that’s the 32 outputs) and comes back in over one more (the 16 inputs).</p>
+<h3>ChannelLab</h3>
+<p>Ordinary audio tools aren’t great at playing 32 channels and recording 16 at the same time, so I wrote my own desktop app: ChannelLab.</p>
+<figure class="wide-figure"><a class="figure-image" href="images/channellab.png" title="View full image"><img src="images/channellab.png" width="1280" height="940" alt="ChannelLab's main window: the board selected as a 32-out, 16-in device, a 32-channel file loaded in Playback with waveforms, and 16 recording channels below." loading="lazy" decoding="async"></a><figcaption>ChannelLab with a 32-channel file loaded.</figcaption></figure>
+<ul class="feature-list">
+<li>Plays an audio file across up to 32 channels, with a waveform for every channel.</li>
+<li>Records all 16 inputs at once to a 24-bit WAV file, with live level meters.</li>
+<li>Generates a 1 kHz test tone on every output with one click.</li>
+<li>Lets any recorded channel be soloed on ordinary headphones for a quick listen.</li>
+<li>Ships as a single Windows EXE, so colleagues can just double-click it.</li>
+</ul>
+
+<h2 id="together">Putting it together</h2>
+<p>End to end, it looks like this:</p>
+<figure class="wide-figure diagram"><a class="figure-image" href="images/system.svg" title="View full image"><img src="images/system.svg" width="880" height="250" alt="System overview: a PC running ChannelLab sends 32 channels to and receives 16 channels from the XU316 board over USB-C; the board exchanges 32 and 16 channels with audio devices such as amplifiers, DSPs and microphones over TDM." loading="lazy" decoding="async"></a><figcaption>PC, board and audio devices: 32 channels out, 16 back.</figcaption></figure>
+<p>The obvious next step is to pair it with an <a href="../cockpit-audio-hardware/index.html#a2b">A2B</a> transceiver. Then this little board could stand in for a car’s head unit on a test bench, playing to amplifiers and listening to microphones, with a laptop in charge.</p>
+
+<h2 id="two-hats">Two hats</h2>
+<p>The best part of doing both halves myself: when something sounds wrong, I don’t have to guess which side of the fence the problem is on. I can put a probe on the clock line in the afternoon and step through the buffer code in the evening.</p>
+<p>So the next time someone asks whether I’m a hardware engineer or a software engineer, I’ll just hand them this board.</p>
+
+</article></main></body></html>

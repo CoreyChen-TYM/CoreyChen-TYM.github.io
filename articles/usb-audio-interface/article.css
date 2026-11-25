@@ -1,0 +1,25 @@
+article .board-photo {
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+article .photo-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+  margin: 1.5em 0;
+}
+article .photo-pair figure {
+  margin: 0;
+}
+article .diagram img {
+  border: 0;
+}
+article .feature-list li {
+  margin: 0.35em 0;
+}
+@media (max-width: 600px) {
+  article .photo-pair {
+    grid-template-columns: 1fr;
+  }
+}
