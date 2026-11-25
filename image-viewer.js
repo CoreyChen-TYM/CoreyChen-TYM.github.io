@@ -13,6 +13,7 @@
   document.body.append(viewer);
 
   document.querySelectorAll('article figure a, .journal-project a, a[data-preview]').forEach(link => {
+    if (link.hasAttribute('data-no-viewer')) return;  // plain link, e.g. to an external site
     link.addEventListener('click', event => {
       if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
       event.preventDefault();

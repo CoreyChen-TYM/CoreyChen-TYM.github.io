@@ -1,0 +1,53 @@
+article .wide-figure {
+  width: 100%;
+  max-width: none;
+}
+article .figure-small {
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+article .audio-compare figure {
+  margin: 0.8em 0;
+}
+article .audio-compare figcaption {
+  margin: 0 0 0.3em;
+  text-align: left;
+}
+article .audio-compare audio {
+  width: 100%;
+}
+article .click-viz canvas {
+  display: block;
+  width: 100%;
+  background: #eef1fb;
+  border-radius: 4px;
+  margin-top: 0.5em;
+}
+article .click-viz .click-overview {
+  height: 56px;
+}
+article .click-viz .click-zoom {
+  height: 180px;
+}
+@font-face {
+  font-family: "Oxygen";
+  src: url("../../fonts/oxygen-regular.woff2") format("woff2");
+  font-display: swap;
+}
+/* Side note: background material that is not part of the main thread. */
+article .side-note {
+  margin: 1.2em 0 1.6em;
+  padding: 0.2em 0 0.2em 1em;
+  border-left: 3px solid #c9cfdc;
+  font-family: "Oxygen", "Segoe UI", sans-serif;
+  font-size: 0.92em;
+  line-height: 1.65;
+  color: #555;
+}
+article .side-note p {
+  margin: 0.6em 0;
+}
+article .diagram img {
+  border: 0;
+}

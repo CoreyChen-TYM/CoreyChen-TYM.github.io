@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Halve the volume of a sine wave in one sample and you hear a click. A hands-on look at parameter smoothing in digital audio, from a naive C experiment to FAUST and back.">
+<title>Why Volume Knobs Don’t Click: Parameter Smoothing in Digital Audio Algorithms — Corey Chen</title>
+<link rel="stylesheet" href="../../style.css">
+<link rel="stylesheet" href="../i2s-tdm/article.css">
+<link rel="stylesheet" href="../../vendor/katex/katex.min.css">
+<link rel="stylesheet" href="article.css">
+<link rel="stylesheet" href="../../image-viewer.css">
+<script src="../../image-viewer.js" defer></script>
+<script src="click-data.js" defer></script>
+<script src="click-viz.js" defer></script>
+</head>
+<body class="article-page">
+<header><a class="site-title" href="../../index.html">Corey Chen</a><a class="email" href="mailto:corey.chen@tymphany.com">corey.chen@tymphany.com</a></header>
+<main><a class="back-link" href="../../index.html">← Journal</a><article>
+<h1>Why Volume Knobs Don’t Click: Parameter Smoothing in Digital Audio Algorithms</h1>
+
+<h2 id="before-we-begin">Before we begin</h2>
+<p>We turn volume knobs all the time: in the car, on a phone, on a speaker. The music gets louder or quieter, smoothly, and we never give it a second thought.</p>
+<p>So what happens behind the knob? Digital audio is just a long list of numbers, one per sample. To change the volume, it seems all we need is to multiply every sample by a number, the <em>gain</em>: a bigger number to turn it up, a smaller one to turn it down.</p>
+<p>That’s almost right. In practice, it’s a little more complicated than that. Let’s find out why.</p>
+
+<h2 id="experiment">A simple experiment</h2>
+<p>Our test signal is a 2-second, 1 kHz sine wave: 48 kHz, 16-bit, 2 channels, raw PCM (<a href="downloads/test.pcm" download>test.pcm</a>). New to raw PCM? See <a href="../i2s-tdm/index.html">I2S and TDM in Practice</a>.</p>
+<p>If we call the input sample <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo stretchy="false">[</mo><mi>n</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">x[n]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">x</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mclose">]</span></span></span></span>, where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> counts samples, and the gain <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mo stretchy="false">[</mo><mi>n</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">g[n]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mclose">]</span></span></span></span>, then applying a gain is one multiplication per sample:</p>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>y</mi><mo stretchy="false">[</mo><mi>n</mi><mo stretchy="false">]</mo><mo>=</mo><mi>g</mi><mo stretchy="false">[</mo><mi>n</mi><mo stretchy="false">]</mo><mo>⋅</mo><mi>x</mi><mo stretchy="false">[</mo><mi>n</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">y[n] = g[n]\cdot x[n]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">x</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mclose">]</span></span></span></span></span>
+<p>Let’s halve the volume at about one second in, the most direct way possible:</p>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>g</mi><mo stretchy="false">[</mo><mi>n</mi><mo stretchy="false">]</mo><mo>=</mo><mrow><mo fence="true">{</mo><mtable rowspacing="0.36em" columnalign="left left" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mn>1.0</mn><mo separator="true">,</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>n</mi><mo>&lt;</mo><mn>48012</mn></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mn>0.5</mn><mo separator="true">,</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>n</mi><mo>≥</mo><mn>48012</mn></mrow></mstyle></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">g[n] = \begin{cases} 1.0, &amp; n \lt 48012 \\ 0.5, &amp; n \ge 48012 \end{cases}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:3em;vertical-align:-1.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size4">{</span></span><span class="mord"><span class="mtable"><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.69em;"><span style="top:-3.69em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord">1.0</span><span class="mpunct">,</span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord">0.5</span><span class="mpunct">,</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.19em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:1em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.69em;"><span style="top:-3.69em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">48012</span></span></span><span style="top:-2.25em;"><span class="pstrut" style="height:3.008em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">48012</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.19em;"><span></span></span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
+<p>In C (<a href="downloads/gain_step.c" download>gain_step.c</a>):</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+#define SAMPLE_RATE 48000
+#define CHANNELS    2
+
+int main(void)
+{
+    FILE *in  = fopen("test.pcm", "rb");
+    FILE *out = fopen("test_1.pcm", "wb");
+    if (!in || !out) { perror("fopen"); return 1; }
+
+    int16_t frame[CHANNELS];
+    long n = 0;                                   /* frame index */
+
+    while (fread(frame, sizeof(int16_t), CHANNELS, in) == CHANNELS) {
+        float gain = (n &lt; SAMPLE_RATE + 12) ? 1.0f : 0.5f;   /* g[n]; +12 lands the jump on a peak */
+
+        for (int c = 0; c &lt; CHANNELS; c++)
+            frame[c] = (int16_t)(frame[c] * gain);            /* y[n] = g[n]·x[n] */
+
+        fwrite(frame, sizeof(int16_t), CHANNELS, out);
+        n++;
+    }
+
+    fclose(in);
+    fclose(out);
+    return 0;
+}</code></pre>
+<pre><code>gcc -O2 -o gain_step gain_step.c &amp;&amp; ./gain_step</code></pre>
+<p>Import <code>test_1.pcm</code> into Audacity (<strong>File → Import → Raw Data</strong>: Signed 16-bit PCM, little-endian, 2 channels, 48000 Hz) and listen, or just play both versions here. <strong>Turn the volume down first:</strong> the test tone is at full scale.</p>
+<div class="audio-compare">
+<figure><figcaption>Original: test.pcm</figcaption><audio controls preload="none" src="audio/original.wav"></audio></figure>
+<figure class="click-viz" data-set="step"><figcaption>Gain jumps to 0.5 at 1 s: test_1.pcm. Watch the step light up as playback reaches it.</figcaption><audio controls preload="none" src="audio/gain-step.wav"></audio>
+<canvas class="click-overview" aria-label="Envelope of the whole 2-second clip with a moving playhead; the jump at 1.00025 s is marked in red."></canvas>
+<canvas class="click-zoom" aria-label="Zoomed waveform around 1.00025 s; the single-sample drop from 0.99 to 0.5 flashes red when playback passes it."></canvas></figure>
+</div>
+<p>Huh? It gets quieter, but there’s a distinct <strong>click</strong> at the one-second mark. Zoom in:</p>
+<figure class="wide-figure"><a class="figure-image" href="images/gain-step-at-peak.png" title="View full image"><img src="images/optimized/gain-step-at-peak.webp" width="3585" height="498" alt="test_1.pcm in Audacity: at about 1.00025 s the sine wave drops straight from 1.0 to 0.5 at its peak." loading="lazy" decoding="async"></a><figcaption>The gain jumps from 1.0 to 0.5 in a single sample, right at a peak.</figcaption></figure>
+<p>Right where the volume changes, the waveform falls off a cliff: from a peak to half its height in a single sample. That cliff is the click.</p>
+<p>Yet a real volume knob doesn’t click, so the real audio module does more than multiply. To see what, let’s look at <strong>FAUST</strong>, a language built for writing audio algorithms.</p>
+
+<h2 id="faust">1. Asking FAUST</h2>
+<p>Before fixing our code, let’s see how a tool built for audio handles volume.</p>
+<aside class="side-note" aria-label="About FAUST">
+<p><a href="https://faust.grame.fr/">FAUST</a> (Functional Audio Stream) is a programming language made just for audio, born and still developed as open source at <a href="https://www.grame.fr/">GRAME</a>, a national centre for musical creation in Lyon, France.</p>
+<p>In FAUST we describe how the signal flows, and the compiler turns that into efficient C, C++, Rust or WebAssembly. That makes it a good teacher: its libraries are full of building blocks written by people who have already met problems like our click, and we can read the C code to see how they work. The <a href="https://faustide.grame.fr/">Faust IDE</a> runs right in the browser, with nothing to install.</p>
+<p>A big thank-you to the GRAME team and the FAUST community for such a beautifully designed tool, and for making it freely available to everyone, along with excellent documentation and libraries.</p>
+</aside>
+
+<h3>FAUST’s volume control</h3>
+<p>FAUST ships with a volume example written by GRAME. Here it is, in full (<a href="downloads/gain.dsp" download>gain.dsp</a>):</p>
+<pre><code>import("stdfaust.lib");
+
+gain    = vslider("Volume", 0, -70, +4, 0.1) : ba.db2linear : si.smoo;
+
+process = _,_ : *(gain), *(gain);</code></pre>
+
+<h3>Try it</h3>
+<p>Load it into the Faust IDE, drag a 1 kHz sine wave (<a href="downloads/sine_1k_5s.wav" download>sine_1k_5s.wav</a>) onto the audio input’s waveform box, and drag the slider up and down:</p>
+<figure class="wide-figure"><a class="figure-image" href="https://faustide.grame.fr/" target="_blank" rel="noopener" data-no-viewer title="Open the Faust IDE"><img src="images/optimized/faust-ide.webp" width="3840" height="1958" alt="The FAUST volume example running in the Faust IDE, with a Volume slider and a 1 kHz sine wave as the audio input." loading="lazy" decoding="async"></a><figcaption>FAUST’s volume example in the <a href="https://faustide.grame.fr/" target="_blank" rel="noopener" data-no-viewer>Faust IDE</a>. Click the image to open it.</figcaption></figure>
+<div class="audio-compare">
+<figure><figcaption>Dragging the Volume slider, recorded from the Faust IDE.</figcaption><audio controls preload="none" src="audio/faust-volume.wav"></audio></figure>
+</div>
+<p>No clicks, however fast the slider moves.</p>
+
+<h3>What’s inside</h3>
+<p>The <code>gain</code> line is a chain of three blocks joined by colons, and its output multiplies both channels:</p>
+<figure class="wide-figure diagram"><a class="figure-image" href="images/faust-volume-flow.svg" title="View full image"><img src="images/faust-volume-flow.svg" width="880" height="360" alt="FAUST's volume example as a flow. The slider steps from 0 dB to −6 dB; ba.db2linear turns that into a step from 1.0 to 0.5; si.smoo turns the step into a smooth curve g[n]. A steady 1 kHz input x[n] is multiplied by g[n], and the output y[n] glides down to half its height." loading="lazy" decoding="async"></a><figcaption>What each block does when the slider drops from 0 dB to −6 dB.</figcaption></figure>
+<p>The slider and the dB conversion are easy to guess. The interesting one is <code>si.smoo</code>, which somehow turns the step into a slope. Delete <code>: si.smoo</code>, run it again, drag the slider, and the crackle comes back. Whatever <code>si.smoo</code> does, it’s exactly what our code was missing. Let’s open it up.</p>
+
+<h2 id="faust-to-c">2. From FAUST to C</h2>
+<p>FAUST can turn the same code into C. The Faust IDE has an <strong>Export</strong> button, but on Linux the command line is simpler:</p>
+<pre><code>sudo apt install faust
+faust -lang c gain.dsp -o gain_faust.c</code></pre>
+<p>The result (<a href="downloads/gain_faust.c" download>gain_faust.c</a>) is about 140 lines, but almost all of it is setup and user-interface glue. The real work happens in one short loop (lightly tidied):</p>
+<pre><code>float fSlow0 = dsp-&gt;fConst0 * powf(10.0f, 0.05f * dsp-&gt;fVslider0);   /* once per block  */
+
+for (i0 = 0; i0 &lt; count; i0++) {                                       /* once per sample */
+    dsp-&gt;fRec0[0] = fSlow0 + dsp-&gt;fConst1 * dsp-&gt;fRec0[1];
+    output0[i0] = input0[i0] * dsp-&gt;fRec0[0];
+    output1[i0] = input1[i0] * dsp-&gt;fRec0[0];
+    dsp-&gt;fRec0[1] = dsp-&gt;fRec0[0];
+}</code></pre>
+<p>The names are machine-made, so let’s translate:</p>
+<ul>
+<li><code>powf(10, 0.05 × dB)</code> is <code>ba.db2linear</code>: the <strong>target</strong> gain the slider asks for.</li>
+<li><code>fConst0</code> is 44.1 divided by the sample rate, about 0.0009 at 48 kHz. <code>fConst1</code> is 1 minus that, about 0.9991.</li>
+<li><code>fRec0[0]</code> is the gain that is <strong>actually applied</strong>, and <code>fRec0[1]</code> remembers its value from the previous sample.</li>
+</ul>
+<p>So the first line inside the loop says:</p>
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>g</mi><mtext>now</mtext></msub><mo>=</mo><mn>0.0009</mn><mo>×</mo><mtext>target</mtext><mo>+</mo><mn>0.9991</mn><mo>×</mo><msub><mi>g</mi><mtext>before</mtext></msub></mrow><annotation encoding="application/x-tex">g_\text{now} = 0.0009 \times \text{target} + 0.9991 \times g_\text{before}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord mtight">now</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.0009</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8095em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">target</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0.9991</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord mtight">before</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>
+<p>On every sample, the gain takes a tiny step towards the target and keeps the rest of what it had. However suddenly the slider jumps, the gain can only follow a little at a time. That’s the whole trick.</p>
+<p>Let’s drop that one idea into our own code. <a href="downloads/gain_smooth.c" download>gain_smooth.c</a> is <code>gain_step.c</code> with two new lines:</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+#define SAMPLE_RATE 48000
+#define CHANNELS    2
+
+int main(void)
+{
+    FILE *in  = fopen("test.pcm", "rb");
+    FILE *out = fopen("test_2.pcm", "wb");
+    if (!in || !out) { perror("fopen"); return 1; }
+
+    const float s = 1.0f - 44.1f / SAMPLE_RATE;   /* pole, same as FAUST's fConst1 */
+    float g = 1.0f;                                /* smoothed gain, FAUST's fRec0 */
+
+    int16_t frame[CHANNELS];
+    long n = 0;
+
+    while (fread(frame, sizeof(int16_t), CHANNELS, in) == CHANNELS) {
+        float target = (n &lt; SAMPLE_RATE + 12) ? 1.0f : 0.5f;   /* same hard step */
+
+        g = (1.0f - s) * target + s * g;          /* the one line that smooths */
+
+        for (int c = 0; c &lt; CHANNELS; c++)
+            frame[c] = (int16_t)(frame[c] * g);
+
+        fwrite(frame, sizeof(int16_t), CHANNELS, out);
+        n++;
+    }
+
+    fclose(in);
+    fclose(out);
+    return 0;
+}</code></pre>
+
+<h2 id="experiment-again">3. The same experiment, again</h2>
+<p>Same input, same jump from 1.0 to 0.5, at the same moment. The only difference is that the gain now goes through the smoother.</p>
+<pre><code>gcc -O2 -o gain_smooth gain_smooth.c &amp;&amp; ./gain_smooth</code></pre>
+<p>Play both and listen at the one-second mark:</p>
+<div class="audio-compare">
+<figure class="click-viz" data-set="step"><figcaption>Before: gain_step.c</figcaption><audio controls preload="none" src="audio/gain-step.wav"></audio>
+<canvas class="click-overview" aria-label="Envelope of the hard-step version with a moving playhead."></canvas>
+<canvas class="click-zoom" aria-label="Zoomed waveform of the hard-step version around 1.00025 s."></canvas></figure>
+<figure class="click-viz" data-set="smooth"><figcaption>After: gain_smooth.c</figcaption><audio controls preload="none" src="audio/smooth.wav"></audio>
+<canvas class="click-overview" aria-label="Envelope of the smoothed version with a moving playhead; the volume slides down after 1 s."></canvas>
+<canvas class="click-zoom" aria-label="Zoomed waveform of the smoothed version around 1.00025 s; no step in the waveform."></canvas></figure>
+</div>
+<p>The click is gone. Zoom out a little in Audacity and the waveform shrinks gently instead of falling off a cliff:</p>
+<figure class="wide-figure"><a class="figure-image" href="images/gain-smooth.png" title="View full image"><img src="images/optimized/gain-smooth.webp" width="3540" height="501" alt="test_2.pcm in Audacity from 0.97 s to 1.16 s: the sine wave's amplitude glides down from 1.0 to 0.5." loading="lazy" decoding="async"></a><figcaption>test_2.pcm: the volume glides down after 1 s.</figcaption></figure>
+<p>Plot the gain itself and the difference is plain to see:</p>
+<figure class="wide-figure"><a class="figure-image" href="images/gain-curves.svg" title="View full image"><img src="images/gain-curves.svg" width="880" height="300" alt="Gain over time from 0.98 s to 1.15 s: gain_step.c drops straight from 1.0 to 0.5; gain_smooth.c curves down to 0.5 over about 100 ms." loading="lazy" decoding="async"></a><figcaption>The gain over time: a cliff, and a slope.</figcaption></figure>
+<p>The gain covers about two-thirds of the way in 23 ms and is practically there after about 100 ms: instant to the hand on the knob, with no cliff left for the ear.</p>
+
+<h2 id="beyond-gain">4. Not just gain</h2>
+<p>Volume is the easiest example, but the same problem shows up with any setting that changes while audio is playing: a filter’s cutoff, an EQ band’s boost, a pan position, a delay time. Change them in one step and the result is clicks or zipper noise, so audio code smooths them too. Sometimes with this same one-pole smoother, sometimes with a straight-line ramp over a fixed time, sometimes by crossfading between the old and new settings.</p>
+<p>In a car we hear this all the time without noticing: the music fading out when we press mute instead of cutting off, or quietly ducking under a navigation prompt.</p>
+
+<h2 id="wrap-up">Wrapping up</h2>
+<p>Changing the volume really is a multiplication. But the number we multiply by has to get there gently, a little on every sample. That small detail is the difference between a click and a smooth fade.</p>
+<p>All the files used in this post: <a href="downloads/test.pcm" download>test.pcm</a> · <a href="downloads/gain_step.c" download>gain_step.c</a> · <a href="downloads/gain.dsp" download>gain.dsp</a> · <a href="downloads/sine_1k_5s.wav" download>sine_1k_5s.wav</a> · <a href="downloads/gain_faust.c" download>gain_faust.c</a> · <a href="downloads/gain_smooth.c" download>gain_smooth.c</a></p>
+
+</article></main></body></html>
